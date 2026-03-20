@@ -1,7 +1,7 @@
 export default [
     {
-        path: '',
-        name: '',
+        path: '/sign/register',
+        name: 'register',
         component: () => import('@/views/pages/sign/register.vue')
     }
 ];

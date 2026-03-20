@@ -1,6 +1,4 @@
-import AppLayout from '@/layout/AppLayout.vue';
-
-const mypage_index = [
+export default [
     {
         path: '/',
         component: AppLayout,
@@ -14,4 +12,3 @@ const mypage_index = [
     }
 ];
 
-export default mypage_index;
