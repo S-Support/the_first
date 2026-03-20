@@ -1,5 +1,6 @@
 import AppLayout from '@/layout/AppLayout.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import sign from '@/router/sign_index'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -80,12 +81,9 @@ const router = createRouter({
                     component: () => import('@/views/pages/Crud.vue')
                 }
             ]
-        },
-        {
-            path: '/auth/login',
-            name: 'login',
-            component: () => import('@/views/pages/auth/Login.vue')
-        },
+      },
+        ...sign,
+
         {
             path: '/auth/access',
             name: 'accessDenied',
