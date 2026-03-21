@@ -26,3 +26,5 @@ app.get("/", (req, res) => {
 // 기능별 라우터 모듈 등록
 const userRouter = require("./routers/user_router.js");
 app.use("/", userRouter);
+const institutionRouter = require("./routers/institution_router.js");
+app.use("/", institutionRouter);
