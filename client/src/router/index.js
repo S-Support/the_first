@@ -17,13 +17,12 @@ import survey_index from '@/router/survey_index';
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-
-        {
-            path: '/sign/login',
-            name: 'login',
-            component: () => import('@/views/pages/auth/Login.vue')
-        },
         ...sign_index,
+        {
+                    path: '/',
+                    component: AppLayout,
+                    children: [
+                        
         ...counsel_index,
         ...institution_index,
         ...mypage_index,
@@ -33,8 +32,8 @@ const router = createRouter({
         ...register_index,
         ...result_index,
         ...survey_index
-
     ]
+}]
 });
 
 export default router;

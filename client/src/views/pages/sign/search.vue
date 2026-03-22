@@ -1,24 +1,25 @@
 <script setup>
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
-import router from '@/router';
 import { ref } from 'vue';
 
-const user_name = ref('');
-const user_id = ref('');
-const user_pw = ref('');
-const user_pwd = ref('');
-const user_email = ref('');
-const user_account = ref('');
-const tel = ref('');
-const address = ref('');
-const institution = ref('');
 
-const goToSearch  = () =>{
-    const link= router.resolve('/sign/register/search')
-    window.open(link.href, '_blank')
-}
+const listboxValues = ref([
+    { name: 'New York', code: 'NY' },
+    { name: 'Rome', code: 'RM' },
+    { name: 'London', code: 'LDN' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Paris', code: 'PRS' }
+]);
 
-const checked = ref(false);
+
 </script>
 
 <template>
@@ -45,55 +46,13 @@ const checked = ref(false);
                                 />
                             </g>
                         </svg>
-                        <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">회원가입</div>
+                        <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">기관찾기</div>
                     </div>
 
-                    <div class="flex items-center justify-between mt-2 mb-8 gap-8">
-                        <Button label="일반사용자" class="w-full md:w-[8.5rem] mb-8"></Button>
-                        <Button label="기관담당자" class="w-full md:w-[8.5rem] mb-8"></Button>
-                        <Button label="기관관리자" class="w-full md:w-[8.5rem] mb-8"></Button>
-                    </div>
-                    <div>
-                        <label for="user_name" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">이름</label>
-                        <InputText id="user_name" type="text" placeholder="성함을 입력해주세요" class="w-full md:w-[30rem] mb-8" v-model="user_name" />
+                <div class="font-semibold text-xl">기관찾기</div>
+                <Listbox v-model="listboxValue" :options="listboxValues" optionLabel="name" :filter="true" class="w-full md:w-[30rem] mb-8"/>
 
-                        <label for="user_id" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">아이디</label>
-                        <InputText id="user_id" type="text" placeholder="아이디를 입력해주세요" class="w-full md:w-[30rem] mb-8" v-model="user_id" />
-
-                        <label for="user_pw" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">비밀번호</label>
-                        <Password id="user_pw" v-model="user_pw" placeholder="비밀번호를 입력해주세요" :toggleMask="true" class="mb-4" fluid :feedback="false"></Password>
-
-                        <label for="user_pwd" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">비밀번호 확인</label>
-                        <Password id="user_pwd" v-model="user_pwd" placeholder="비밀번호를 입력해주세요" :toggleMask="true" class="mb-4" fluid :feedback="false"></Password>
-                        
-                        <label for="user_email" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">이메일</label>
-                        <InputText id="user_email" type="text" placeholder="이메일을 입력해주세요" class="w-full md:w-[22.8rem] mb-2" v-model="user_email"/>
-                        <Button label="인증번호전송" :fluid="false"></Button>
-
-                        <label for="user_account"><br></label>
-                        <InputText id="user_account" type="text" placeholder="인증번호를 입력해주세요" class="w-full md:w-[26.5em] mb-8" v-model="user_account"/>
-                        <Button label="확인" :fluid="false"></Button>
-
-
-                        <label for="tel" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">연락처</label>
-                        <InputText id="tel" type="text" placeholder="전화번호를 입력해주세요" class="w-full md:w-[30rem] mb-8" v-model="tel" />
-
-                        <label for="address" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">주소</label>
-                        <InputText id="address" type="text" placeholder="주소를 입력해주세요" class="w-full md:w-[30rem] mb-8" v-model="address" />
-
-                        <label for="institution" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">기관</label>
-                    <InputText id="institution" type="selected" placeholder="기관을 선택해주세요" class="w-full md:w-[30rem] mb-8" v-model="institution" @click="goToSearch" />
-                         <!-- <Select id="institution" v-model="institution" :options="dropdownItems" optionLabel="name" placeholder="기관을 입력해주세요" class="w-full"></Select> -->
-
-                        <div class="flex items-center justify-between mt-2 mb-8 gap-8">
-                            <div class="flex items-center">
-                                <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
-                                <label for="rememberme1">아이디 기억하기</label>
-                            </div>
-                            <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">비밀번호 찾기</span>
-                        </div>
-                        <Button label="회원가입" class="w-full" as="router-link" to="/"></Button>
-                    </div>
+                
                 </div>
             </div>
         </div>
