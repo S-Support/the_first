@@ -4,4 +4,41 @@ const selectAllUser = `
 SELECT * FROM t_board;
 `;
 
-module.exports = { selectAllUser };
+const insertUser = `
+INSERT INTO user (role, user_name, user_id, user_pw, email, tel, address, institution_no)
+VALUES(?,?, ?, ?, ?, ?, ?,?)
+`;
+
+const signApproval = `
+INSERT INTO sign_approval (user_id)
+VALUES(?)
+
+`;
+
+
+
+const loginUser = `
+SELECT user_no,
+        role,
+        user_id,
+        user_name,
+        approval
+FROM user
+WHERE user_id = ? AND user_pw = ?
+`
+
+const approval = `
+SELECT 
+        sa.approval_no as no,
+        u.user_name as name,
+        u.user_id as id,
+        i.name as ins,
+        u.tel,
+        u.email,
+        DATE_FORMAT(u.created_at, '%Y-%m-%d') as created_at
+FROM user u
+JOIN sign_approval sa ON u.user_id = sa.user_id
+JOIN institution i ON u.institution_no = i.institution_no
+`
+
+module.exports = { selectAllUser ,loginUser ,approval,insertUser, signApproval};
