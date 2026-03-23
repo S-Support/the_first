@@ -1,7 +1,7 @@
 <script setup>
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
 
-import { generateRandomNumber, sendEmail } from '@/components/register/NodeMailer';
+// import { generateRandomNumber, sendEmail } from '@/components/register/NodeMailer';
 
 import router from '@/router';
 // import { send } from 'vite';

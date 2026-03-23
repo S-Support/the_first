@@ -26,6 +26,8 @@ const insertUser = async (userInfo) => {
     return result;
   } catch (err) {
     if (conn) await conn.rollback();
+  }
+}
 
 const loginUser = async (userId,userPw) => {
   let conn = null;
@@ -47,6 +49,7 @@ const loginUser = async (userId,userPw) => {
     return result2;
   } catch (err) {
     if (conn) await conn.rollback();
+  }
 };
 
 const approval = async () => {
