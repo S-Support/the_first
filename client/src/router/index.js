@@ -89,7 +89,8 @@ const router = createRouter({
                     path: '/pages/crud',
                     name: 'crud',
                     component: () => import('@/views/pages/Crud.vue')
-                }
+                },
+                ...institution_index
             ]
         },
 
@@ -107,7 +108,6 @@ const router = createRouter({
 
         ...sign_index,
         ...counsel_index,
-        ...institution_index,
         ...mypage_index,
         ...notice_index,
         ...plan_index,

@@ -1,6 +1,7 @@
 const { pool } = require("../DAO");
 const institutionSql = require("../sql/institutions.js");
 
+// 기관정보 조회
 const selectAllInstitution = async () => {
   let conn = null;
   try {
@@ -14,4 +15,24 @@ const selectAllInstitution = async () => {
   }
 };
 
-module.exports = { selectAllInstitution };
+// 기관정보 수정
+const updateInstitution = async (institution_no, updateData) => {
+  let conn = null;
+  try {
+    conn = await pool.getConnection();
+    await conn.beginTransaction(); // Auto Commit 해제
+    let [result] = await conn.query(institutionSql.updateInstitution, [
+      updateData,
+      institution_no,
+    ]);
+    conn.commit();
+    return result;
+  } catch (err) {
+    console.log(err);
+    conn.rollback();
+  } finally {
+    if (conn) conn.release();
+  }
+};
+
+module.exports = { selectAllInstitution, updateInstitution };
