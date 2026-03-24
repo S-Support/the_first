@@ -20,7 +20,8 @@ SELECT user_no,
         role,
         user_id,
         user_name,
-        approval
+        approval,
+        institution_no
 FROM user
 WHERE user_id = ? AND user_pw = ?
 `;
@@ -37,6 +38,19 @@ SELECT
 FROM user u
 JOIN sign_approval sa ON u.user_id = sa.user_id
 JOIN institution i ON u.institution_no = i.institution_no
+WHERE sa.approval = 0 AND u.institution_no = ?
+`;
+
+const access = `
+UPDATE user
+SET approval = 1
+WHERE user_id = ?
+`;
+
+const signAccess = `
+UPDATE sign_approval
+SET approval = 1
+WHERE user_id = ?
 `;
 
 module.exports = {
@@ -45,4 +59,6 @@ module.exports = {
   approval,
   insertUser,
   signApproval,
+  access,
+  signAccess,
 };

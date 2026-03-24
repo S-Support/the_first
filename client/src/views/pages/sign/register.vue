@@ -32,7 +32,7 @@ const sendCode = async (email) => {
     await fetch('/api/mail', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' // ⭐ 필수
         },
         body: JSON.stringify({
             email: email
@@ -41,6 +41,14 @@ const sendCode = async (email) => {
         .then((resp) => resp.json())
         .then((data) => {
             console.log(data);
+            // alert("메일 발송 완료");
+
+            // if (data.retCode == 'OK') {
+            //     alert('메일발송성공');
+            //     location.reload();
+            // } else {
+            //     alert('발송실패');
+            // }
         })
         .catch((err) => console.log(err));
 };

@@ -48,11 +48,11 @@ const loginUser = async (userId, userPw) => {
   }
 };
 
-const approval = async () => {
+const approval = async (insNo) => {
   let conn = null;
   try {
     conn = await pool.getConnection();
-    let rows = await conn.query(userSql.approval);
+    let rows = await conn.query(userSql.approval, [insNo]);
     return rows;
   } catch (err) {
     console.log(err);
@@ -61,4 +61,21 @@ const approval = async () => {
   }
 };
 
-module.exports = { selectAllUser, insertUser, loginUser, approval };
+const access = async (userId) => {
+  let conn = null;
+  const user = userId.userId;
+  try {
+    conn = await pool.getConnection();
+    await conn.beginTransaction();
+    let result = await conn.query(userSql.access, [user]);
+    await conn.query(userSql.signAccess, [user]);
+    conn.commit();
+    return result;
+  } catch (err) {
+    if (conn) await conn.rollback();
+  } finally {
+    if (conn) conn.release();
+  }
+};
+
+module.exports = { selectAllUser, insertUser, loginUser, approval, access };
