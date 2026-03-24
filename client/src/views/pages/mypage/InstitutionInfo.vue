@@ -1,70 +1,107 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { getInstitutionMyPage } from '@/service/InstitutionMyPageService';
 
-const route = useRoute();
 const router = useRouter();
 
-const institution = ref(null);
-const activeTab = ref(route.query.tab || '0');
+// 기관담당자 본인정보 저장 변수
+const info = ref(null);
 
-// 기관정보 조회
-const findAllInfo = async () => {
+// 날짜 표시용 함수
+function formatDate(value) {
+    if (!value) return '';
+    return String(value).slice(0, 10);
+}
+
+// 본인정보 조회 함수
+async function loadMyInfo() {
     try {
-        const res = await fetch(`/api/institutioninfo`);
-        const info = await res.json();
-        institution.value = info;
+        // localStorage에서 로그인 사용자 정보 가져오기
+        const loginUser = JSON.parse(localStorage.getItem('user'));
+        const userNo = loginUser?.user_no;
+
+        if (!userNo) {
+            alert('로그인 정보가 없습니다.');
+            return;
+        }
+
+        const result = await getInstitutionMyPage(userNo);
+
+        if (result.retCode === 'OK') {
+            info.value = result.data;
+        } else {
+            alert(result.message || '정보 조회 실패');
+        }
     } catch (err) {
-        console.log(err);
+        console.error('기관담당자 정보 조회 오류:', err);
+        alert('정보를 불러오지 못했습니다.');
     }
-};
+}
 
-// 기관정보 수정 탭으로 이동
-const goToEditForm = () => {
-    router.push({
-        path: '/institutioninfo/edit',
-        query: { tab: '1' } // 기관정보 탭을 활성화하기 위한 파라미터
-    });
-};
+// 수정 페이지로 이동
+function goEdit() {
+    router.push('/institutioninfo/edit');
+}
 
-onBeforeMount(() => {
-    findAllInfo();
+// 화면 처음 열릴 때 조회
+onMounted(() => {
+    loadMyInfo();
 });
 </script>
-<template>
-    <div class="w-full">
-        <div class="w-full">
-            <div class="card">
-                <Tabs v-model:value="activeTab">
-                    <TabList>
-                        <Tab value="0">내 정보</Tab>
-                        <Tab value="1">기관정보</Tab>
-                    </TabList>
-                </Tabs>
 
-                <div v-if="activeTab === '1' && institution" class="mt-4">
-                    <div class="font-semibold text-xl mb-4">기관정보</div>
-                    <DataTable
-                        :value="[
-                            { label: '기관', value: institution.name },
-                            { label: '사업자번호', value: institution.tel },
-                            { label: '대표번호', value: institution.institution_tel },
-                            { label: '주소', value: institution.institution_address },
-                            { label: '이메일', value: institution.institution_email },
-                            { label: '운영여부', value: institution.operation === 1 ? '여' : '부' }
-                        ]"
-                    >
-                        <Column field="label" header="" class="w-3xs"></Column>
-                        <Column field="value" header=""></Column>
-                    </DataTable>
+<template>
+    <div class="p-6">
+        <!-- 페이지 제목 -->
+        <div class="mb-5">
+            <div class="text-surface-900 dark:text-surface-0 text-2xl font-medium mb-1">마이페이지</div>
+            <span class="text-muted-color"> 기관담당자 본인 정보를 확인할 수 있습니다. </span>
+        </div>
+
+        <!-- 본문 -->
+        <div class="bg-surface-0 dark:bg-surface-900 border border-surface-200 dark:border-surface-700 rounded-xl p-4 lg:p-6">
+            <div v-if="info" class="grid gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 py-2 border-b border-surface-200 dark:border-surface-700">
+                    <div class="font-semibold text-surface-700 dark:text-surface-200">아이디</div>
+                    <div class="text-surface-900 dark:text-surface-0">{{ info.user_id }}</div>
                 </div>
 
-                <div v-else-if="activeTab === '1'" class="mt-4">로딩중...</div>
+                <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 py-2 border-b border-surface-200 dark:border-surface-700">
+                    <div class="font-semibold text-surface-700 dark:text-surface-200">이름</div>
+                    <div class="text-surface-900 dark:text-surface-0">{{ info.user_name }}</div>
+                </div>
 
-                <div class="flex justify-end mt-4">
-                    <Button label="수정" @click="goToEditForm"></Button>
+                <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 py-2 border-b border-surface-200 dark:border-surface-700">
+                    <div class="font-semibold text-surface-700 dark:text-surface-200">전화번호</div>
+                    <div class="text-surface-900 dark:text-surface-0">{{ info.tel || '-' }}</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 py-2 border-b border-surface-200 dark:border-surface-700">
+                    <div class="font-semibold text-surface-700 dark:text-surface-200">이메일</div>
+                    <div class="text-surface-900 dark:text-surface-0">{{ info.email }}</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 py-2 border-b border-surface-200 dark:border-surface-700">
+                    <div class="font-semibold text-surface-700 dark:text-surface-200">주소</div>
+                    <div class="text-surface-900 dark:text-surface-0">{{ info.address || '-' }}</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 py-2 border-b border-surface-200 dark:border-surface-700">
+                    <div class="font-semibold text-surface-700 dark:text-surface-200">소속 기관</div>
+                    <div class="text-surface-900 dark:text-surface-0">{{ info.institution_name || '-' }}</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 py-2">
+                    <div class="font-semibold text-surface-700 dark:text-surface-200">가입일</div>
+                    <div class="text-surface-900 dark:text-surface-0">{{ formatDate(info.created_at) }}</div>
+                </div>
+
+                <div class="flex justify-end pt-3">
+                    <Button label="수정" @click="goEdit" />
                 </div>
             </div>
+
+            <div v-else class="text-muted-color">정보를 불러오는 중입니다.</div>
         </div>
     </div>
 </template>
