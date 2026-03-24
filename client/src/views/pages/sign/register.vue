@@ -1,10 +1,7 @@
 <script setup>
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
 
-// import { generateRandomNumber, sendEmail } from '@/components/register/NodeMailer';
-
 import router from '@/router';
-// import { send } from 'vite';
 
 import { reactive, ref } from 'vue';
 const clickRole = async (role_name) => {
@@ -12,8 +9,9 @@ const clickRole = async (role_name) => {
     info.role = role_name;
 };
 
-const userCode = ref('');
+// const user_account = ref('');
 const info = reactive({
+    user_account: '',
     role: '',
     user_name: '',
     user_id: '',
@@ -25,29 +23,72 @@ const info = reactive({
 });
 
 const sendCode = async (email) => {
-    const code = generateRandomNumber(6);
+    // const code = generateRandomNumber(6);
+    // codeStore.set(email, {
+    //     code,
+    //     expiresAt: Date.now() + 3 * 60 * 1000
+    // });
+    console.log(email);
+    await fetch('/api/mail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email
+        })
+    })
+        .then((resp) => resp.json())
+        .then((data) => {
+            console.log(data);
+            // alert("메일 발송 완료");
 
-    codeStore.set(email, {
-        code,
-        expiresAt: Date.now() + 3 * 60 * 1000
-    });
-    await sendEmail(email, code);
+            // if (data.retCode == 'OK') {
+            //     alert('메일발송성공');
+            //     location.reload();
+            // } else {
+            //     alert('발송실패');
+            // }
+        })
+        .catch((err) => console.log(err));
 };
 
-const verifyCode = (email, inputCode) => {
-    const data = codeStore.get(email);
+// const verifyCode = (email, inputCode) => {
+//     const data = codeStore.get(email);
 
-    if (!data) throw new Error('요청없음');
+//     if (!data) throw new Error('요청없음');
 
-    if (Date.now() > data.expiresAt) {
-        codeStore.delete(email);
-        throw new Error('만료됨');
+//     if (Date.now() > data.expiresAt) {
+//         codeStore.delete(email);
+//         throw new Error('만료됨');
+//     }
+//     if (data.code !== inputCode) {
+//         throw new Error('틀림');
+//     }
+//     codeStore.delete(email);
+//     return '인증성공';
+// };
+
+const verifyCode = async (code) => {
+    let emailData = {
+        user_email: info.user_email,
+        code: code
+    };
+    const res = await fetch('/api/verify', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(emailData)
+    });
+
+    const data = await res.json();
+
+    if (data.retCode === 'OK') {
+        alert('인증 성공');
+    } else {
+        alert(data.message);
     }
-    if (data.code !== inputCode) {
-        throw new Error('틀림');
-    }
-    codeStore.delete(email);
-    return '인증성공';
 };
 
 // 데이터 파싱, 전송
@@ -160,8 +201,8 @@ const checked = ref(false);
                         <Button label="인증번호전송" :fluid="false" v-on:click="sendCode(info.user_email)"></Button>
 
                         <label for="user_account"><br /></label>
-                        <InputText id="user_account" type="text" placeholder="인증번호를 입력해주세요" class="w-full md:w-[26.5em] mb-8" v-model="userCode" />
-                        <Button label="확인" :fluid="false" v-on:click="verifyCode(userCode)"></Button>
+                        <InputText id="user_account" type="text" placeholder="인증번호를 입력해주세요" class="w-full md:w-[26.5em] mb-8" v-model="info.user_account" />
+                        <Button label="확인" :fluid="false" v-on:click="verifyCode(info.user_account)"></Button>
 
                         <label for="tel" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">연락처</label>
                         <InputText id="tel" type="text" placeholder="전화번호를 입력해주세요" class="w-full md:w-[30rem] mb-8" v-model="info.tel" />

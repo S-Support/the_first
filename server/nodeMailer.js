@@ -1,4 +1,6 @@
 const nodemailer = require("nodemailer");
+const codeStore = require("./codeStore");
+
 const generateRandomNumber = (n) => {
   let code = "";
   for (let i = 0; i < n; i++) {
@@ -7,22 +9,34 @@ const generateRandomNumber = (n) => {
   return code;
 };
 
-const transporter = nodemailer.createTransport({
+const transport = nodemailer.createTransport({
   service: "gmail",
+  host: "smtp.gmail.com",
+  // port: 587,
+  // secure: false,
   auth: {
     user: "thdwl525@g.yju.ac.kr",
     pass: "hbwwafryvfubodzy",
   },
 });
 
-const sendEmail = (email, code) => {
+const sendEmail = (email) => {
+  console.log(email);
+
+  const code = generateRandomNumber(6);
+
+  codeStore.set(email, {
+    code,
+    expiresAt: Date.now() + 3 * 60 * 1000,
+  });
+
   const mailOptions = {
     from: process.env.NODEMAILER_USER,
     to: email,
     subject: "회원가입 인증 코드",
     text: `회원가입인증 코드는 ${code}`,
   };
-  transporter.sendMail(mailOptions, (error, info) => {
+  transport.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     } else {

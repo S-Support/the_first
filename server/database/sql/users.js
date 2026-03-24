@@ -15,8 +15,6 @@ VALUES(?)
 
 `;
 
-
-
 const loginUser = `
 SELECT user_no,
         role,
@@ -25,7 +23,7 @@ SELECT user_no,
         approval
 FROM user
 WHERE user_id = ? AND user_pw = ?
-`
+`;
 
 const approval = `
 SELECT 
@@ -39,6 +37,12 @@ SELECT
 FROM user u
 JOIN sign_approval sa ON u.user_id = sa.user_id
 JOIN institution i ON u.institution_no = i.institution_no
-`
+`;
 
-module.exports = { selectAllUser ,loginUser ,approval,insertUser, signApproval};
+module.exports = {
+  selectAllUser,
+  loginUser,
+  approval,
+  insertUser,
+  signApproval,
+};

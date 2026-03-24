@@ -1,0 +1,29 @@
+export default [
+    {
+        path: '/common',
+        name: 'common',
+        component: () => import('@/views/pages/common/Common.vue'),
+        children: [
+            {
+                path: 'counselCheck',
+                name: 'counselCheck',
+                component: () => import('@/components/counsel/CounselCheck.vue')
+            },
+            {
+                path: 'priorityCheck',
+                name: 'priorityCheck',
+                component: () => import('@/components/priority/PriorityCheck.vue')
+            },
+            {
+                path: 'planCheck',
+                name: 'planCheck',
+                component: () => import('@/components/plan/PlanCheck.vue')
+            },
+            {
+                path: 'resultCheck',
+                name: 'resultCheck',
+                component: () => import('@/components/result/ResultCheck.vue')
+            }
+        ]
+    }
+];
