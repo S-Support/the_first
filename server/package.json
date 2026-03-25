@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
   "license": "ISC",
   "author": "",
   "type": "commonjs",
@@ -16,10 +17,10 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "mariadb": "^3.5.2",
+    "nodemailer": "^8.0.3",
     "pinia": "^3.0.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
-  },
-  "keywords": []
+  }
 }

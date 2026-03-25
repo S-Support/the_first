@@ -14,7 +14,6 @@ const selectAllUser = async () => {
   }
 };
 
-
 const insertUser = async (userInfo) => {
   let conn = null;
   try {
@@ -36,7 +35,7 @@ const insertUser = async (userInfo) => {
   }
 };
 
-const loginUser = async (userId,userPw) => {
+const loginUser = async (userId, userPw) => {
   let conn = null;
   try {
     conn = await pool.getConnection();
@@ -46,7 +45,7 @@ const loginUser = async (userId,userPw) => {
     console.log(err);
   } finally {
     if (conn) conn.release();
-  } 
+  }
 };
 
 const approval = async (insNo) => {
@@ -64,7 +63,7 @@ const approval = async (insNo) => {
 
 const access = async (userId) => {
   let conn = null;
-  const user = userId.userId
+  const user = userId.userId;
   try {
     conn = await pool.getConnection();
     await conn.beginTransaction();
@@ -79,5 +78,4 @@ const access = async (userId) => {
   }
 };
 
-
-module.exports = { selectAllUser , insertUser,loginUser ,approval ,access};
+module.exports = { selectAllUser, insertUser, loginUser, approval, access };
