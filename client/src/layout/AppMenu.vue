@@ -23,7 +23,7 @@ const model = computed(() => {
                 {
                     label: '지원신청내역',
                     icon: 'pi pi-fw pi-home',
-                    to: '/'
+                    to: '/list'
                 },
                 {
                     label: '마이페이지',
