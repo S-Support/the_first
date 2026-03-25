@@ -30,5 +30,10 @@ export default [
                 component: () => import('@/components/survey/SurveyCheck.vue')
             }
         ]
+    },
+    {
+        path: '/',
+        name: 'dashboard',
+        component: () => import('@/views/Dashboard.vue')
     }
 ];

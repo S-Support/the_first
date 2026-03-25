@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, shallowRef } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import counselForm from '@/components/counsel/CounselForm.vue';
@@ -11,14 +11,14 @@ import resultForm from '@/components/result/ResultForm.vue';
 import ManagerAssignForm from '@/components/common/ManagerAssignForm.vue';
 
 // 오른쪽에서 담당자 지정 완료 후 사용할 셀렉 목록
-const dropdownValues = ref([
+const dropdownValues = [
     { name: '상담기록', code: 'A', component: counselForm },
     { name: '우선순위', code: 'B', component: priorityForm },
     { name: '지원계획', code: 'C', component: planForm },
     { name: '지원결과', code: 'D', component: resultForm }
-]);
+];
 
-const dropdownValue = ref(null);
+const dropdownValue = shallowRef(null);
 
 // 임시 데이터
 // 나중에는 선택된 대상자/조사지 상세 조회값으로 교체
@@ -80,24 +80,11 @@ const handleAssigned = (data) => {
 
                 <Tabs value="0">
                     <TabList>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> develop
-                        <Tab value="0"><RouterLink :to="{ name: 'surveyCheck' }">지원신청서</RouterLink> </Tab>
+                        <Tab value="0"><RouterLink :to="{ name: 'surveyCheck' }">지원신청서</RouterLink></Tab>
                         <Tab value="1"><RouterLink :to="{ name: 'counselCheck' }">상담기록</RouterLink></Tab>
                         <Tab value="2"><RouterLink :to="{ name: 'priorityCheck' }">우선순위</RouterLink></Tab>
                         <Tab value="3"><RouterLink :to="{ name: 'planCheck' }">지원계획</RouterLink> </Tab>
                         <Tab value="4"><RouterLink :to="{ name: 'resultCheck' }">지원결과</RouterLink> </Tab>
-<<<<<<< HEAD
-=======
-                        <Tab value="0"><RouterLink :to="{ name: 'counselCheck' }">상담기록</RouterLink></Tab>
-                        <Tab value="1"><RouterLink :to="{ name: 'priorityCheck' }">우선순위</RouterLink></Tab>
-                        <Tab value="2"><RouterLink :to="{ name: 'planCheck' }">지원계획</RouterLink></Tab>
-                        <Tab value="3"><RouterLink :to="{ name: 'resultCheck' }">지원결과</RouterLink></Tab>
->>>>>>> develop
-=======
->>>>>>> develop
                     </TabList>
                 </Tabs>
 
@@ -116,11 +103,9 @@ const handleAssigned = (data) => {
 
                 <!-- 담당자 지정 완료 -->
                 <div v-else>
-                    <div class="font-semibold text-xl mb-4">업무 폼 선택</div>
-
-                    <Select v-model="dropdownValue" :options="dropdownValues" optionLabel="name" placeholder="폼 선택하기" class="w-full mb-4" />
-
-                    <component :is="dropdownValue?.component" v-if="dropdownValue?.component" />
+                    <Select v-model="dropdownValue" :options="dropdownValues" optionLabel="name" placeholder="폼 선택하기" />
+                    <Button label="확인" />
+                    <component :is="dropdownValue?.component" />
                 </div>
             </div>
         </div>
