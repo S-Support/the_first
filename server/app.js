@@ -81,3 +81,5 @@ const institutionMyPageRouter = require("./routers/institution_mypage_router"); 
 app.use("/institutionmypage", institutionMyPageRouter);
 const infoRouter = require("./routers/info_router");
 app.use("/", infoRouter);
+const counselRouter = require("./routers/counsel_router");
+app.use("/", counselRouter);

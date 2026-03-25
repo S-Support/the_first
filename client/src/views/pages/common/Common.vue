@@ -15,6 +15,18 @@ const dropdownValues = ref([
     { name: '지원결과', code: 'D', component: resultForm }
 ]);
 
+const targetInfo = ref({
+    beneficiaries_name: '김민수',
+    guardian_name: '김보호',
+    priority_name: '긴급',
+    gender_name: '남',
+    birth: '2001.01.01',
+    disability_type: '발달장애',
+    manager_no: null,
+    sub_manager_no: null
+});
+
+
 function applySelection() {
     selectedComponent = dropdownValue.value?.component;
 }
@@ -38,7 +50,7 @@ console.log(dropdownValue);
                             </div>
                             <div class="w-full rounded-md p-4">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">홍길동</span>
+                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">{{ targetInfo.beneficiaries_name }}</span>
                                 </div>
                             </div>
                             <div class="w-full rounded-md p-4">
@@ -48,7 +60,7 @@ console.log(dropdownValue);
                             </div>
                             <div class="w-full rounded-md p-4">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">홍동길</span>
+                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">{{ targetInfo.guardian_name }}</span>
                                 </div>
                             </div>
                             <div class="w-full rounded-md p-4">
@@ -58,7 +70,7 @@ console.log(dropdownValue);
                             </div>
                             <div class="w-full rounded-md p-4">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">긴급</span>
+                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">{{ targetInfo.priority_name }}</span>
                                 </div>
                             </div>
                             <div class="w-full rounded-md p-4">
@@ -68,7 +80,7 @@ console.log(dropdownValue);
                             </div>
                             <div class="w-full rounded-md p-4">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">남</span>
+                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">{{ targetInfo.gender_name }}</span>
                                 </div>
                             </div>
                             <div class="w-full rounded-md p-4">
@@ -78,7 +90,7 @@ console.log(dropdownValue);
                             </div>
                             <div class="w-full rounded-md p-4">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">2001.01.01</span>
+                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">{{ targetInfo.birth }}</span>
                                 </div>
                             </div>
                             <div class="w-full rounded-md p-4">
@@ -88,7 +100,7 @@ console.log(dropdownValue);
                             </div>
                             <div class="w-full rounded-md p-4">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">발달장애</span>
+                                    <span class="text-surface-900 dark:text-surface-0 text-lg font-medium leading-tight">{{ targetInfo.disability_type }}</span>
                                 </div>
                             </div>
                         </div>
