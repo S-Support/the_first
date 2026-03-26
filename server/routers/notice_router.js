@@ -4,8 +4,10 @@ const noticeService = require("../services/notice_service");
 
 // 공지사항 전체조회
 router.get(`/notice`, async (req, res) => {
-  const result = await noticeService.findAll();
-  res.json(result);
+  const institutionNo = req.query.institution_no;
+  const result = await noticeService.findAll(institutionNo);
+  console.log("공지사항 result:", result, Array.isArray(result));
+  return res.status(200).json(result);
 });
 
 // 공지사항 상세조회

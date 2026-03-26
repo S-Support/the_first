@@ -1,17 +1,21 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
 
 const institution = ref(null);
-const activeTab = ref(route.query.tab || '0');
+const activeTab = ref(route.query.tab || '0'); // 기관정보 탭 기본 활성화
 
 // 기관정보 조회
 const findAllInfo = async () => {
     try {
-        const res = await fetch(`/api/admin/institutioninfo`);
+        const insNo = userStore.institution;
+
+        const res = await fetch(`/api/admin/institutioninfo?institution_no=${insNo}`);
         const info = await res.json();
         institution.value = info;
     } catch (err) {

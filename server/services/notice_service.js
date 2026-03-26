@@ -1,9 +1,9 @@
 const noticeMapper = require("../database/mappers/notice.mapper");
 
 // 공지사항 조회
-const findAll = async () => {
-  let list = await noticeMapper.selectAllNotice();
-  return list;
+const findAll = async (institutionNo) => {
+  let list = await noticeMapper.selectAllNotice(institutionNo);
+  return list || [];
 };
 
 // 공지사항 상세조회

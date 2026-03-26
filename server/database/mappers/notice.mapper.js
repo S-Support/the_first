@@ -2,12 +2,12 @@ const { pool } = require("../DAO");
 const noticeSql = require("../sql/notice");
 
 // 공지사항 조회
-const selectAllNotice = async () => {
+const selectAllNotice = async (institutionNo) => {
   let conn = null;
   try {
     conn = await pool.getConnection();
-    let [rows] = await conn.execute(noticeSql.selectAllNotice);
-    return rows;
+    const rows = await conn.execute(noticeSql.selectAllNotice, [institutionNo]);
+    return rows || [];
   } catch (err) {
     console.log(err);
   } finally {
@@ -20,7 +20,7 @@ const selectNoticeByNo = async (no) => {
   let conn = null;
   try {
     conn = await pool.getConnection();
-    let [result] = await conn.query(noticeSql.selectNoticeByNo, no);
+    let result = await conn.query(noticeSql.selectNoticeByNo, no);
     let info = result[0];
     return info;
   } catch (err) {

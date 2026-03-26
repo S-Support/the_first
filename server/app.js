@@ -87,6 +87,5 @@ const managerAssignRouter = require("./routers/manager_assign_router"); // 기�
 app.use("/managerAssign", managerAssignRouter);
 const noticeRouter = require("./routers/notice_router.js"); // 공지사항
 app.use("/", noticeRouter);
-
 const listRouter = require("./routers/list_router");
 app.use("/", listRouter);

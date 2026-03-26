@@ -8,9 +8,10 @@ SELECT n.notice_no,
        u.user_name,
        n.created_at
 FROM notice n
-LEFT JOIN user u ON n.user_no = u.user_no
+LEFT JOIN \`user\` u ON n.user_no = u.user_no
 LEFT JOIN institution i ON n.institution_no = i.institution_no
-ORDER BY n.notice_no
+WHERE n.institution_no = ?
+ORDER BY n.notice_no DESC
 `;
 
 // 공지사항 상세조회
