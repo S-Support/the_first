@@ -93,5 +93,8 @@ const adminMyPageRouter = require("./routers/admin_mypage_router"); //마이페�
 app.use("/admin/mypage", adminMyPageRouter);
 const listRouter = require("./routers/list_router");
 app.use("/", listRouter);
+
+const surveyRouter = require("./routers/survey_router");
+app.use("/", surveyRouter);
 const planRouter = require("./routers/plan_router"); // 지원계획
 app.use("/plan", planRouter);
