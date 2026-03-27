@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const noticeService = require("../services/notice_service");
+const upload = require("../upload");
 
 // 공지사항 전체조회
 router.get(`/notice/:institution_no`, async (req, res) => {
@@ -22,10 +23,22 @@ router.get(`/notice/detail/:noticeNo`, async (req, res) => {
 });
 
 // 공지사항 등록
-router.post(`/notice`, async (req, res) => {
-  const target = req.body;
-  const result = await noticeService.createInfo(target);
-  res.json(result);
+router.post(`/notice`, upload.array("files"), async (req, res) => {
+  try {
+    const { user_no, institution_no, notice_title, notice_content } = req.body;
+    const file = req.files;
+
+    const result = await noticeService.createInfo(
+      user_no,
+      institution_no,
+      notice_title,
+      notice_content,
+    );
+    files;
+    res.json(result);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // 공지사항 수정

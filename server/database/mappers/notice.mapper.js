@@ -44,17 +44,30 @@ const selectFilesByNoticeNo = async (no) => {
 };
 
 // 공지사항 등록
-const insertNotice = async (noticeInfo) => {
-  let conn = null;
-  try {
-    conn = await pool.getConnection();
-    let [result] = await conn.query(noticeSql.insertNotice, noticeInfo);
-    return result;
-  } catch (err) {
-    console.log(err);
-  } finally {
-    if (conn) conn.release();
-  }
+const insertNotice = async (conn, noticeData) => {
+  const { user_no, institution_no, notice_title, notice_content } = noticeData;
+
+  const result = await conn.execute(noticeSql, insertNotice, [
+    user_no,
+    institution_no,
+    notice_title,
+    notice_content,
+  ]);
+  return result.insertId;
+};
+
+// 첨부파일 등록
+const insertNoticeFile = async (conn, fileData) => {
+  const { notice_no, file_name, file_path, file_size } = fileData;
+
+  const result = await conn.execute(noticeSql.insertNoticeFile, [
+    notice_no,
+    file_name,
+    file_path,
+    file_size,
+  ]);
+
+  return result;
 };
 
 // 공지사항 수정
@@ -103,4 +116,5 @@ module.exports = {
   insertNotice,
   deleteNotice,
   selectFilesByNoticeNo,
+  insertNoticeFile,
 };
