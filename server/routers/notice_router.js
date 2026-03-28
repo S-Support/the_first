@@ -26,15 +26,18 @@ router.get(`/notice/detail/:noticeNo`, async (req, res) => {
 router.post(`/notice`, upload.array("files"), async (req, res) => {
   try {
     const { user_no, institution_no, notice_title, notice_content } = req.body;
-    const file = req.files;
+    const files = req.files;
 
     const result = await noticeService.createInfo(
-      user_no,
-      institution_no,
-      notice_title,
-      notice_content,
+      {
+        user_no,
+        institution_no,
+        notice_title,
+        notice_content,
+      },
+      files,
     );
-    files;
+
     res.json(result);
   } catch (err) {
     console.log(err);

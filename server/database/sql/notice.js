@@ -88,4 +88,5 @@ module.exports = {
   deleteNotice,
   fileAdd,
   selectFilesByNoticeNo,
+  insertNoticeFile,
 };

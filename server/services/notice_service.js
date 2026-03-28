@@ -1,4 +1,5 @@
 const noticeMapper = require("../database/mappers/notice.mapper");
+const { pool } = require("../database/DAO");
 
 // 공지사항 조회
 const findAll = async (institutionNo) => {
@@ -21,24 +22,35 @@ const createInfo = async (noticeData, files) => {
     conn = await pool.getConnection();
     await conn.beginTransaction();
 
-    // 공지사항 등록
-    const noticeNo = await noticeMapper.insertNotice(conn, noticeData);
+    const { user_no, institution_no, notice_title, notice_content } =
+      noticeData;
+
+    const [result] = await conn.execute(noticeSql.insertNotice, [
+      user_no,
+      institution_no,
+      notice_title,
+      notice_content,
+    ]);
+
+    const noticeNo = result.insertId;
 
     // 첨부파일 등록
     if (files && files.length > 0) {
       for (const file of files) {
-        await noticeMapper.insertNoticeFile(conn, {
-          notice_no: noticeNo,
-          file_name: file.originalname,
-          file_path: file.path,
-          file_size: file.size,
-        });
+        await conn.execute(noticeSql.insertNoticeFile, [
+          noticeNo,
+          file.originalname,
+          file.path,
+          file.size,
+        ]);
       }
     }
+
     await conn.commit();
     return noticeNo;
   } catch (err) {
     console.log(err);
+    if (conn) await conn.rollback();
   } finally {
     if (conn) conn.release();
   }
@@ -74,5 +86,4 @@ module.exports = {
   createInfo,
   modifyInfo,
   removeInfo,
-  createInfo,
 };

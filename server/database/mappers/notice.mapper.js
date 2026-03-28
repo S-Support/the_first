@@ -47,7 +47,7 @@ const selectFilesByNoticeNo = async (no) => {
 const insertNotice = async (conn, noticeData) => {
   const { user_no, institution_no, notice_title, notice_content } = noticeData;
 
-  const result = await conn.execute(noticeSql, insertNotice, [
+  const [result] = await conn.execute(noticeSql, [
     user_no,
     institution_no,
     notice_title,
