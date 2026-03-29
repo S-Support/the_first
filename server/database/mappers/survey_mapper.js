@@ -55,7 +55,7 @@ const insertMain = async (mainInfo) => {
   let conn = null;
   try {
     conn = await pool.getConnection();
-    let [result] = await conn.query(surveySql.insertMain, mainInfo);
+    let result = await conn.query(surveySql.insertMain, mainInfo);
     return result;
   } catch (err) {
     console.log(err);
@@ -79,7 +79,6 @@ const insertSub = async (subInfo) => {
 };
 
 const insertQuestion = async (questionInfo) => {
-  // userInfo는 배열, {user_id, user_pwd, user_name, user_gender, user_age, join_data}
   let conn = null;
   try {
     conn = await pool.getConnection();
