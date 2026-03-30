@@ -87,7 +87,6 @@ const signX = async (userId) => {
     conn = await pool.getConnection();
     await conn.beginTransaction();
     let result = await conn.query(userSql.signRefuse, [user]);
-    await conn.query(userSql.signRefuse2, [user]);
     conn.commit();
     return result;
   } catch (err) {

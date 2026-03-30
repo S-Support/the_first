@@ -12,7 +12,7 @@ SELECT
 FROM counsel c 
 JOIN user u ON c.writer_no = u.user_no
 LEFT JOIN files f ON f.counsel_no = c.counsel_no
-WHERE c.survey_no = 2
+WHERE c.survey_no = ?
 GROUP BY c.counsel_no
 ORDER BY  c.created_at DESC ,c.counsel_date DESC
 `;

@@ -22,35 +22,24 @@ const handleFile = (e) => {
 };
 
 const submit = async () => {
-    const beneNo = userbeneStore.beneficiaries_no;
-    const surNo = userbeneStore.survey_no;
+  const beneNo = userbeneStore.beneficiaries_no;
+  const surNo = userbeneStore.survey_no;
 
-    const formData = new FormData();
+  const formData = new FormData()
 
-    formData.append('date', form.date);
-    formData.append('title', form.title);
-    formData.append('content', form.content);
-    formData.append('surNo', surNo);
-    formData.append('beneNo', beneNo);
-    formData.append('userNo', userNo);
+  formData.append('date', form.date)
+  formData.append('title', form.title)
+  formData.append('content', form.content)
+  formData.append('surNo', surNo)
+  formData.append('beneNo', beneNo)
+  formData.append('userNo', userNo)
+  
 
-    if (form.file.length > 0) {
-        for (let i = 0; i < form.file.length; i++) {
-            formData.append('file', form.file[i]);
-        }
-
-        try {
-            await fetch(`/api/counselUpload`, {
-                method: 'POST',
-                body: formData
-            });
-            userbeneStore.refreshCounsel = !userbeneStore.refreshCounsel;
-            alert('등록 완료');
-        } catch (err) {
-            console.error(err);
-            alert('에러 발생');
-        }
+  if (form.file.length > 0) {
+    for (let i = 0; i < form.file.length; i++) {
+      formData.append('file', form.file[i])
     }
+  }
 
   try {
     await fetch(`/api/counselUpload`, {

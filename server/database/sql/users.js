@@ -58,10 +58,6 @@ DELETE FROM sign_approval
 WHERE user_id = ?
 `
 
-const signRefuse2 = `
-DELETE FROM user
-WHERE user_id = ?
-`
 
 const instelSelect = `
 SELECT tel
@@ -78,6 +74,5 @@ module.exports = {
         access,
         signAccess,
         signRefuse,
-        signRefuse2,
         instelSelect
 };
