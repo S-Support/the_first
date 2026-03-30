@@ -158,14 +158,14 @@ onBeforeUnmount(() => {
 
 <template>
     <!-- 조회영역 전체 -->
-    <div class="p-4 bg-white h-full rounded-lg">
+    <div class="flex flex-col h-full">
         <!-- 화면 제목 -->
         <div class="font-semibold text-lg mb-4">지원계획 조회</div>
 
         <!-- 스크롤 영역 -->
-        <div class="max-h-[700px] overflow-y-auto pr-2">
+        <div class="max-h-[500px] overflow-y-auto pr-2">
             <!-- 데이터 없을 때 -->
-            <div v-if="list.length === 0" class="text-center text-gray-500 py-10">등록된 지원계획이 없습니다.</div>
+            <div v-if="list.length === 0" class="text-center text-gray-300 py-10">등록된 지원계획이 없습니다.</div>
 
             <!-- 데이터 있을 때 -->
             <div v-else>

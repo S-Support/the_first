@@ -178,12 +178,12 @@ const changePlan = async () => {
 </script>
 
 <template>
-    <div class="p-4 bg-white h-full rounded-lg">
+    <div class="flex flex-col h-full">
         <!-- 화면 제목 -->
         <div class="font-semibold text-lg mb-4">지원결과 조회</div>
 
         <!-- 스크롤 영역 -->
-        <div class="max-h-[700px] overflow-y-auto pr-2">
+        <div class="max-h-[500px] overflow-y-auto pr-2">
             <!-- 데이터 없을 때 -->
             <div v-if="list.length === 0" class="text-center text-gray-500 py-10">등록된 지원결과가 없습니다.</div>
 
