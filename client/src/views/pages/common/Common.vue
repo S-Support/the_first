@@ -6,14 +6,18 @@ import counselForm from '@/components/counsel/CounselForm.vue';
 import priorityForm from '@/components/priority/PriorityForm.vue';
 import planForm from '@/components/plan/PlanForm.vue';
 import resultForm from '@/components/result/ResultForm.vue';
+import priorityApprovalForm from '@/components/priority/PriorityApprovalForm.vue';
+import { useUserStore } from '@/stores/user';
 
+const userStore = useUserStore();
+const user_role = userStore.role;
 // 오른쪽에서 담당자 지정할 때 쓸 컴포넌트
 import ManagerAssignForm from '@/components/common/ManagerAssignForm.vue';
 
 // 오른쪽에서 담당자 지정 완료 후 사용할 셀렉 목록
 const dropdownValues = [
     { name: '상담기록', code: 'A', component: counselForm },
-    { name: '우선순위', code: 'B', component: priorityForm },
+    { name: '우선순위', code: 'B', component: user_role === 'e3' ? priorityApprovalForm : priorityForm },
     { name: '지원계획', code: 'C', component: planForm },
     { name: '지원결과', code: 'D', component: resultForm }
 ];

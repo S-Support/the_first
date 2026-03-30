@@ -31,19 +31,20 @@ router.get("/question/:no", async (req, res) => {
 // 등록
 router.post("/main", async (req, res) => {
   let target = req.body;
-  let result = await userService.createMainService(target);
+  console.log(target);
+  let result = await surveyService.createMainService(target);
   res.send(result);
 });
 
 router.post("/sub", async (req, res) => {
   let target = req.body;
-  let result = await userService.createSubService(target);
+  let result = await surveyService.createSubService(target);
   res.send(result);
 });
 
 router.post("/question", async (req, res) => {
   let target = req.body;
-  let result = await userService.createQuestionService(target);
+  let result = await surveyService.createQuestionService(target);
   res.send(result);
 });
 
@@ -71,19 +72,19 @@ router.put("/question/:no", async (req, res) => {
 
 // 삭제
 router.delete("/main/:no", async (req, res) => {
-  let mainNo = req.params;
+  let mainNo = req.params.no;
   let result = await surveyService.deleteMainService(mainNo);
   res.send(result);
 });
 
 router.delete("/sub/:no", async (req, res) => {
-  let subNo = req.params;
+  let subNo = req.params.no;
   let result = await surveyService.deleteSubService(subNo);
   res.send(result);
 });
 
 router.delete("/question/:no", async (req, res) => {
-  let questionNo = req.params;
+  let questionNo = req.params.no;
   let result = await surveyService.deleteQuestionService(questionNo);
   res.send(result);
 });

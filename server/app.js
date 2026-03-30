@@ -97,3 +97,6 @@ const surveyRouter = require("./routers/survey_router");
 app.use("/", surveyRouter);
 const planRouter = require("./routers/plan_router"); // 지원계획
 app.use("/plan", planRouter);
+
+const surveyInputRouter = require("./routers/surveyInput_router");
+app.use("/", surveyInputRouter);
