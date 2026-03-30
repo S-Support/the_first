@@ -1,57 +1,60 @@
 <script setup>
-import { reactive, onBeforeMount } from 'vue';
-import { useUserStore } from '@/stores/user';
-import { useBeneStore } from '@/stores/surBene';
+import { reactive ,onBeforeMount} from 'vue'
+import { useUserStore } from '@/stores/user'
+import { useBeneStore } from '@/stores/surBene'
 import { useRoute } from 'vue-router';
 
-const userStore = useUserStore();
+
+const userStore = useUserStore()
 const userbeneStore = useBeneStore();
 const route = useRoute();
 const userNo = userStore.user_no;
 const selectNo = Number(route.params.no);
 
 const form = reactive({
-    date: '',
-    title: '',
-    content: '',
-    file: []
-});
+  date: '',
+  title: '',
+  content: '',
+  file: []
+})
 
 const handleFile = (e) => {
-    form.file = e.target.files;
-};
+  form.file = e.target.files
+}
 
 const submit = async () => {
-    const beneNo = userbeneStore.beneficiaries_no;
-    const surNo = userbeneStore.survey_no;
+  const beneNo = userbeneStore.beneficiaries_no;
+  const surNo = userbeneStore.survey_no;
 
-    const formData = new FormData();
+  const formData = new FormData()
 
-    formData.append('date', form.date);
-    formData.append('title', form.title);
-    formData.append('content', form.content);
-    formData.append('surNo', surNo);
-    formData.append('beneNo', beneNo);
-    formData.append('userNo', userNo);
+  formData.append('date', form.date)
+  formData.append('title', form.title)
+  formData.append('content', form.content)
+  formData.append('surNo', surNo)
+  formData.append('beneNo', beneNo)
+  formData.append('userNo', userNo)
+  
 
-    if (form.file.length > 0) {
-        for (let i = 0; i < form.file.length; i++) {
-            formData.append('file', form.file[i]);
-        }
+  if (form.file.length > 0) {
+    for (let i = 0; i < form.file.length; i++) {
+      formData.append('file', form.file[i])
     }
 
-    try {
-        await fetch(`/api/counselUpload`, {
-            method: 'POST',
-            body: formData
-        });
-        userbeneStore.refreshCounsel = !userbeneStore.refreshCounsel;
-        alert('등록 완료');
-    } catch (err) {
-        console.error(err);
-        alert('에러 발생');
-    }
-};
+  try {
+    await fetch(`/api/counselUpload`, {
+      method: 'POST',
+      body: formData
+    })
+    userbeneStore.refreshCounsel = !userbeneStore.refreshCounsel
+    alert('등록 완료')
+
+  } catch (err) {
+    console.error(err)
+    alert('에러 발생')
+  }
+}
+
 
 onBeforeMount(async () => {
     await userbeneStore.fetchUsers(selectNo);
@@ -88,4 +91,5 @@ onBeforeMount(async () => {
             </div>
         </div>
     </div>
+  </div>
 </template>
