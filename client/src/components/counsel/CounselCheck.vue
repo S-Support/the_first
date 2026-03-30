@@ -14,7 +14,6 @@ const historyData = ref([])
 const selectNo = Number(route.params.no);
 const list = ref([]);
 const surNo = computed(() => {
-  console.log( userbeneStore.survey_no)
   return userbeneStore.survey_no
 });
 const userName = userStore.user_name;
