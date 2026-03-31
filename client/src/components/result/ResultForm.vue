@@ -67,6 +67,22 @@ const selectedPlanInfo = computed(() => {
 
     return approvedPlanList.value.find((item) => String(item.support_plan_no) === String(selectedPlanNo.value)) || null;
 });
+/* =========================
+   승인된 지원계획 셀렉트 옵션 가공
+========================= */
+// 종결 승인된 결과서가 있는 계획서는
+// 셀렉트에서 "(종결)" 표시를 붙이고 disabled 처리
+const approvedPlanOptions = computed(() => {
+    return approvedPlanList.value.map((item) => {
+        const isClosed = Number(item.closed_approved_result_count) > 0;
+
+        return {
+            ...item,
+            optionLabel: isClosed ? `[종결] 지원계획 ${item.support_plan_no} - ${item.plan_title}` : `지원계획 ${item.support_plan_no} - ${item.plan_title}`,
+            disabled: isClosed
+        };
+    });
+});
 
 // 제목/내용/종결여부/파일/기존파일 삭제표시 등을 기준으로 작성중 여부 판단
 const isDirty = computed(() => {
@@ -683,14 +699,21 @@ watch(
                     <p v-if="isDirty" class="text-xs text-orange-600 mb-3">작성 중인 내용이 있습니다. 새로고침하거나 페이지를 벗어나면 경고가 표시됩니다.</p>
 
                     <!-- =========================
-                 승인된 지원계획 선택
-            ========================== -->
+                         승인된 지원계획 선택
+                    ========================== -->
                     <div class="mb-4">
                         <label class="block mb-1 text-sm font-medium">지원계획 선택</label>
+
                         <select v-model="selectedPlanNo" :disabled="isEditMode" class="w-full border rounded px-3 py-2 bg-gray-100">
                             <option value="">승인된 지원계획서를 선택해주세요.</option>
-                            <option v-for="plan in approvedPlanList" :key="plan.support_plan_no" :value="String(plan.support_plan_no)">지원계획 {{ plan.support_plan_no }} - {{ plan.plan_title }}</option>
+
+                            <option v-for="plan in approvedPlanOptions" :key="plan.support_plan_no" :value="String(plan.support_plan_no)" :disabled="plan.disabled">
+                                {{ plan.optionLabel }}
+                            </option>
                         </select>
+
+                        <!-- 종결된 건 안내 -->
+                        <p v-if="!isEditMode" class="text-xs text-gray-500 mt-2">종결 승인된 결과서가 있는 지원계획은 목록에 표시되지만 선택할 수 없습니다.</p>
                     </div>
 
                     <!-- 선택 전 안내 -->
@@ -713,8 +736,8 @@ watch(
                     </div>
 
                     <!-- =========================
-                 임시저장 목록
-            ========================== -->
+                         임시저장 목록
+                    ========================== -->
                     <!-- 수정 모드에서는 임시저장 목록 숨김 -->
                     <div v-if="!isEditMode && selectedPlanNo" class="mb-6 border rounded-lg p-4 bg-gray-50">
                         <div class="font-semibold mb-3">임시저장 목록</div>
@@ -746,24 +769,24 @@ watch(
                     </div>
 
                     <!-- =========================
-                 제목 입력
-            ========================== -->
+                         제목 입력
+                    ========================== -->
                     <div class="mb-4">
                         <label class="block mb-1 text-sm">제목</label>
                         <input type="text" v-model="form.result_title" :disabled="!selectedPlanNo && !isEditMode" class="w-full border rounded px-3 py-2 bg-gray-100" />
                     </div>
 
                     <!-- =========================
-                 내용 입력
-            ========================== -->
+                         내용 입력
+                    ========================== -->
                     <div class="mb-4">
                         <label class="block mb-1 border-t pt-2 text-sm">내용</label>
                         <textarea v-model="form.result_content" :disabled="!selectedPlanNo && !isEditMode" class="w-full border rounded px-3 py-2 bg-gray-100 h-32"></textarea>
                     </div>
 
                     <!-- =========================
-                 종결 / 미종결 선택
-            ========================== -->
+                         종결 / 미종결 선택
+                    ========================== -->
                     <div class="mb-6 border-t pt-3">
                         <div class="font-medium mb-2">종결 여부</div>
 
@@ -781,8 +804,8 @@ watch(
                     </div>
 
                     <!-- =========================
-                 기존 첨부파일 목록 (수정 모드)
-            ========================== -->
+                         기존 첨부파일 목록 (수정 모드)
+                    ========================== -->
                     <div v-if="isEditMode" class="mb-4 border-t pt-3">
                         <div class="font-medium mb-2">기존 첨부파일</div>
 
@@ -814,8 +837,8 @@ watch(
                     </div>
 
                     <!-- =========================
-                 새 파일 첨부
-            ========================== -->
+                         새 파일 첨부
+                    ========================== -->
                     <div class="mb-4 flex border-t pt-3 items-center gap-3">
                         <input ref="fileInputRef" type="file" multiple @change="handleFile" :disabled="!selectedPlanNo && !isEditMode" class="block w-full text-sm" />
                     </div>
@@ -838,8 +861,8 @@ watch(
                     </div>
 
                     <!-- =========================
-                 버튼 영역
-            ========================== -->
+                         버튼 영역
+                    ========================== -->
                     <div class="text-right flex justify-end gap-2">
                         <!-- 등록 모드에서만 임시저장 버튼 표시 -->
                         <button v-if="!isEditMode" type="button" @click="saveDraft" class="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded-full">임시저장</button>
