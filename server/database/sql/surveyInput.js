@@ -70,30 +70,41 @@ const survey_QA = `
 SELECT 
     m.main_no AS main_no,
     m.main_title AS main_title,
+    DATE_FORMAT(si.created_at, '%Y-%m-%d') as created_at,
     JSON_ARRAYAGG(
         JSON_OBJECT(
             'sub_no', s.sub_no,
             'sub_title', s.sub_title,
-            'questions', q.questions
+            'questions', COALESCE(q.questions, JSON_ARRAY())
         )
     ) AS subs
-FROM survey_main m
-JOIN survey_sub s ON s.main_no = m.main_no
+FROM survey_input si
+JOIN survey_main m
+LEFT JOIN survey_sub s
+       ON s.main_no = m.main_no
 LEFT JOIN (
-    SELECT sub_no, JSON_ARRAYAGG(JSON_OBJECT(
-        'question_no', q.question_no,
-        'question_text', q.question_text,
-        'answer_name', c.code_name
-    )) AS questions
+    SELECT 
+        q.sub_no,
+        a.survey_no,
+        JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'question_no', q.question_no,
+                'question_text', q.question_text,
+                'answer_name', c.code_name
+            )
+        ) AS questions
     FROM survey_question q
-    JOIN survey_answer a ON a.question_no = q.question_no
+    LEFT JOIN survey_answer a
+           ON a.question_no = q.question_no
     LEFT JOIN common_code c
-      ON c.group_id = 'surveyValue'
-     AND c.common_id = a.choice_value
-     WHERE a.survey_no = ?
-    GROUP BY sub_no
-) q ON q.sub_no = s.sub_no
-GROUP BY m.main_no, m.main_title;
+           ON c.group_id = 'surveyValue'
+          AND c.common_id = a.choice_value
+    GROUP BY q.sub_no, a.survey_no
+) q
+       ON q.sub_no = s.sub_no
+      AND q.survey_no = si.survey_no
+WHERE si.survey_no = ?
+GROUP BY m.main_no, m.main_title, si.created_at;
 `;
 
 module.exports = {
