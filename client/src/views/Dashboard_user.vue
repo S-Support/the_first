@@ -8,6 +8,12 @@ const router = useRouter();
 
 const userStore = useUserStore();
 const user_no = userStore.user_no;
+const selectedSurveyNo = ref(null);
+
+// const openModal = (surveyNo) => {
+//     selectedSurveyNo.value = surveyNo;
+//     visible.value = true;
+// };
 
 const planDialog = ref(false)
 const resultDialog = ref(false)
@@ -116,26 +122,33 @@ onBeforeMount(async () => {
                         <Column header="지원신청서" style="min-width: 8rem">
                             <template #body="{ data }">
                                 <Button type="submit" label="보기" v-on:click="" />
+                                <!-- openModal(data.survey_no) -->
+                                <!-- <PriorityModal v-model:visible="visible" :surveyNo="selectedSurveyNo" /> -->
                             </template>
                         </Column>
                         <Column header="담당자" style="min-width: 8rem">
                             <template #body="{ data }">
                                 <div class="flex items-center gap-2">
                                     <span>{{ data.manager_name }}</span>
+                                    <span v-if="data.manager_name == null">미지정</span>
                                 </div>
                             </template>
                         </Column>
+
                         <Column header="우선순위" style="min-width: 8rem">
                             <template #body="{ data }">
                                 <div class="flex items-center gap-2">
                                     <span>{{ data.priority_name }}</span>
+                                    <span v-if="data.priority_name == null">미지정</span>
                                 </div>
                             </template>
                         </Column>
                         <Column header="계획/결과 진행" style="min-width: 8rem">
                             <template #body="{ data }">
                                 <div class="flex items-center gap-2">
-                                    <span>NULL</span>
+                                    <span v-if="data.finish_cnt == 0">진행중 {{ data.progress_cnt }}건</span>
+                                    <span v-if="data.finish_cnt == 0">결과 {{ data.e1_result_cnt }}건</span>
+                                    <span v-if="data.finish_cnt > 0">종결 {{ data.finish_cnt }}건</span>
                                 </div>
                             </template>
                         </Column>
