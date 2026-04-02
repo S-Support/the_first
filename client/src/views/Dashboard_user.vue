@@ -55,13 +55,10 @@ const planModalBtn = async (row) => {
     }
 };
 
-<<<<<<< HEAD
 const filteredApprovalForm = computed(() => {
     return planList.value.filter((item) => item.approval === 'a1');
 });
 
-=======
->>>>>>> b861cd3df875c84c5ea43b18558610fc00eb3af8
 const loadResultList = async (row) => {
     const surNo = row.survey_no;
     try {
@@ -69,19 +66,12 @@ const loadResultList = async (row) => {
         const text = await resp.text();
         const data = text ? JSON.parse(text) : [];
 
-<<<<<<< HEAD
-        resultList.value = (Array.isArray(data) ? data : []).map((item) => ({
-            ...item,
-            files: item.filename ? item.filename.split(',').map((f) => f.trim()) : []
-        }));
-=======
         resultList.value = (Array.isArray(data) ? data : [])
             .filter((item) => item.finish === 1) //종결건만 조회
             .map((item) => ({
                 ...item,
                 files: item.filename ? item.filename.split(',').map((f) => f.trim()) : []
             }));
->>>>>>> b861cd3df875c84c5ea43b18558610fc00eb3af8
     } catch (err) {
         console.error('지원결과 조회 에러:', err);
         resultList.value = [];
