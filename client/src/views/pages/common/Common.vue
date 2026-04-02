@@ -95,6 +95,10 @@ const handlePlanEditModeForOpen = () => {
 const handleResultEditModeForOpen = () => {
     openFormByCode('D');
 };
+const handleCounselEditModeForOpen = () => {
+    openFormByCode('A'); // 상담기록
+};
+
 onBeforeMount(async () => {
     try {
         const resp = await fetch(`/api/beneficiaries/${selectNo}`);
@@ -120,6 +124,7 @@ onMounted(() => {
     }
     window.addEventListener('plan-edit-mode', handlePlanEditModeForOpen);
     window.addEventListener('result-edit-mode', handleResultEditModeForOpen);
+    window.addEventListener('counsel-edit-mode', handleCounselEditModeForOpen);
 });
 
 onBeforeUnmount(() => {
@@ -129,6 +134,7 @@ onBeforeUnmount(() => {
     }
     window.removeEventListener('plan-edit-mode', handlePlanEditModeForOpen);
     window.removeEventListener('result-edit-mode', handleResultEditModeForOpen);
+    window.removeEventListener('counsel-edit-mode', handleCounselEditModeForOpen);
 });
 // 임시 데이터
 // 나중에는 선택된 대상자/조사지 상세 조회값으로 교체
