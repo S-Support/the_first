@@ -86,12 +86,10 @@ const findAllUsers = async () => {
         const searchQuery = keyword.value.trim() ? `?keyword=${encodeURIComponent(keyword.value.trim())}` : '';
         const resp = await fetch(`/api/lists/${user_no}${searchQuery}`);
 
-        const text = await resp.text();
-        if (text) {
-            users.value = JSON.parse(text);
-        } else {
-            users.value = [];
-        }
+        if (!resp.ok) throw new Error('Network response was not ok');
+
+        const data = await resp.json();
+        users.value = Array.isArray(data) ? data : [];
     } catch (err) {
         console.error('조회 에러:', err);
         users.value = [];
@@ -127,15 +125,6 @@ const highlightText = (text) => {
 onBeforeMount(() => {
     findAllUsers();
 });
-
-// onBeforeMount(async () => {
-//     await fetch(`/api/lists/${user_no}`)
-//         .then((resp) => resp.json())
-//         .then((data) => {
-//             users.value = data;
-//         })
-//         .catch((err) => console.log(err));
-// });
 </script>
 
 <template>
