@@ -62,7 +62,7 @@ onBeforeMount(() => {
                 <div v-if="institution">
                     <div class="p-6">
                         <div class="mb-5">
-                            <div class="text-surface-900 dark:text-surface-0 text-2xl font-medium mb-1">기관 정보</div>
+                            <div class="text-surface-900 dark:text-surface-0 text-2xl font-medium mb-1">마이페이지</div>
                             <span class="text-muted-color">기관관리자 기관 정보를 확인할 수 있습니다.</span>
                         </div>
                         <div class="bg-surface-0 dark:bg-surface-900 border border-surface-200 dark:border-surface-700 rounded-xl p-4 lg:p-6">
