@@ -10,6 +10,7 @@ export default [
         name: 'register',
         component: () => import('@/views/pages/sign/register.vue')
     },
+
     {
         path: '/sign/access',
         name: 'accessWait',

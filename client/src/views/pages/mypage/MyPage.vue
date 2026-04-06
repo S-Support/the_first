@@ -192,10 +192,6 @@ function goToWithdraw() {
 
                     <TargetDetail v-else :target="selectedTarget" :isCreateMode="isCreateMode" @created="createTarget" @updated="updateTarget" />
                 </div>
-
-                <div class="mt-6 text-right">
-                    <Button label="회원탈퇴" severity="danger" outlined @click="goToWithdraw" />
-                </div>
             </div>
         </div>
     </div>

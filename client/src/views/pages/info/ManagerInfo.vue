@@ -192,15 +192,17 @@ onBeforeMount(() => {
                 <span class="text-sl text-500">({{ managerList.length }}명)</span>
             </div>
 
-            <div v-for="user in managerList" :key="user.user_id" class="p-3 border-b cursor-pointer hover:bg-green-200" @click="selectUser(user)">
-                {{ user.name }}
-            </div>
+                <div v-for="user in managerList" :key="user.user_id" class="p-3 border-b cursor-pointer hover:bg-green-200" @click="selectUser(user)">
+                    {{ user.name }}
+                </div>
 
-            <button class="mt-4 w-full bg-green-400 text-white py-2 rounded" @click="createUser">기관담당자 등록</button>
+                <!-- <button class="mt-4 w-full bg-green-400 text-white py-2 rounded" @click="createUser">기관담당자 등록</button> -->
+                <Button @click="createUser" class="w-full" label="기관담당자 등록" />
+            </div>
         </div>
 
-        <div class="flex-1 p-10 bg-gray-100">
-            <div class="bg-white p-8 rounded shadow">
+        <div class="md:w-6/8 h-full">
+            <div class="card h-full flex flex-col gap-4">
                 <h2 class="mb-6 text-xl">
                     {{ isCreateMode ? '담당자 등록' : isEditMode ? '담당자 정보 수정' : selectedUser?.name || '담당자 정보' }}
                 </h2>

@@ -123,7 +123,7 @@ const filters = ref({
                     <div class="w-full text-center font-bold">사용승인</div>
                 </template>
                 <template #body="slotProps">
-                    <Button label="승인" severity="success" size="small" @click="approvalAcess" />
+                    <Button label="승인" size="small" @click="approvalAcess" />
                 </template>
             </Column>
             <Column>
