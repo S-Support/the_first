@@ -1,4 +1,4 @@
-// client/src/service/InstitutionMyPageService.js
+const BASE_URL = '/api/mypage';
 
 // 기관담당자 본인정보 조회 함수
 // userNo를 받아서 백엔드에 GET 요청을 보냄
