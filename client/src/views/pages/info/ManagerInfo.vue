@@ -1,179 +1,177 @@
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, onBeforeMount } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
-const uNo = userStore.user_no;
-const uName = userStore.user_name;
+const ins_no = userStore.institution;
 
-import { myInfo } from '@/service/MyPageService';
+const managerList = ref([]);
+const selectedUser = ref(null);
 
-const myInfoList = ref([]);
-
-// 수정 모드
 const isEditMode = ref(false);
+const isCreateMode = ref(false);
 
-// 입력값 (수정용)
-const editForm = ref({
-    user_name: '',
-    tel: ''
-});
+const insList = ref([]);
 
+// 입력폼
 const form = reactive({
-    zonecode: '',
-    roadAddress: '',
-    detailAddress: ''
+    user_id: '',
+    password: '',
+    name: '',
+    tel: '',
+    email: '',
+    ins_no: ''
 });
 
-const formdata = computed(() => {
-    return form.zonecode + ' ' + form.roadAddress + ' ' + form.detailAddress;
-});
+// 담당자 리스트 조회
+const managerFetch = async (ins_no) => {
+    try {
+        const resp = await fetch(`/api/managerList/${ins_no}`);
+        const data = await resp.json();
+        managerList.value = data;
 
-function searchAddress() {
-    if (!window.kakao || !window.kakao.Postcode) {
-        alert('주소 검색 서비스를 불러오지 못했습니다.');
-        return;
-    }
-
-    new window.kakao.Postcode({
-        oncomplete(data) {
-            form.zonecode = data.zonecode || '';
-            form.roadAddress = data.roadAddress || data.address || '';
-
-            const detailInput = document.getElementById('detailAddress');
-            if (detailInput) detailInput.focus();
+        if (!selectedUser.value && data.length > 0) {
+            selectedUser.value = data[0];
+            loadForm(selectedUser.value);
         }
-    }).open();
-}
+    } catch (err) {
+        console.error('담당자 조회 에러:', err);
+    }
+};
 
-// 데이터 불러오기
-async function loadInfo(uNo) {
-    const data = await myInfo(uNo);
-    myInfoList.value = Array.isArray(data) ? data : [data];
-}
+//기관정보 조회
+const fetchInsList = async () => {
+    try {
+        const resp = await fetch('/api/institutionList');
+        const data = await resp.json();
+        insList.value = data;
+    } catch (err) {
+        console.error('기관 목록 조회 에러:', err);
+    }
+};
 
-// 수정 버튼 클릭
-function handleEdit() {
+//담당자 선택시 조회 모드 전환
+const selectUser = (user) => {
+    selectedUser.value = user;
+    loadForm(user);
+    isEditMode.value = false;
+    isCreateMode.value = false;
+};
+
+//상세정보 불러옴
+const loadForm = (user) => {
+    if (!user) return;
+    form.user_id = user.user_id || '';
+    form.name = user.name || '';
+    form.tel = user.tel || '';
+    form.email = user.email || '';
+    form.ins_no = user.ins_no ? String(user.ins_no) : '';
+};
+
+//등록 모드 전환
+const createUser = () => {
+    isCreateMode.value = true;
+    isEditMode.value = false;
+    selectedUser.value = null;
+
+    form.user_id = '';
+    form.password = '';
+    form.name = '';
+    form.tel = '';
+    form.email = '';
+    // form.ins_no = '';
+};
+
+//수정 모드 전환
+const editUser = () => {
     isEditMode.value = true;
+    isCreateMode.value = false;
+};
 
-    editForm.value.user_name = myInfoList.value[0].user_name;
-    editForm.value.tel = myInfoList.value[0].tel;
-}
+//담당자 등록
+const insertUser = async () => {
+    try {
+        const payload = {
+            user_id: form.user_id,
+            password: form.password,
+            name: form.name,
+            tel: form.tel,
+            email: form.email,
+            ins_no: ins_no
+        };
 
-// 저장 버튼 클릭
-async function handleSave() {
-    console.log('수정값 : ', editForm.value.user_name, editForm.value.tel, formdata.value);
-    // try {
-    //     await fetch('/api/myPageUserInfoUpdate', {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             user_no: uNo,
-    //             user_name: editForm.value.user_name,
-    //             tel: editForm.value.tel,
-    //             address: formdata.value
-    //         })
-    //     });
+        const resp = await fetch('/api/managerInsert', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
 
-    //     // 화면 반영
-    //     myInfoList.value[0].user_name = editForm.value.user_name;
-    //     myInfoList.value[0].tel = editForm.value.tel;
-    //     myInfoList.value[0].address = formdata.value;
+        if (!resp.ok) throw new Error('등록 실패');
 
-    //     isEditMode.value = false;
-    //     alert('수정 완료');
-    // } catch (err) {
-    //     console.error(err);
-    //     alert('수정 실패');
-    // }
-}
+        const newUser = await resp.json();
 
-onMounted(async () => {
-    await loadInfo(uNo);
+        alert('등록 완료');
+
+        await managerFetch(ins_no);
+
+        const latestUser = managerList.value[managerList.value.length - 1];
+
+        selectedUser.value = latestUser;
+        loadForm(latestUser);
+
+        isCreateMode.value = false;
+    } catch (err) {
+        console.error('등록 에러:', err);
+        alert('이미 사용중인 아이디');
+    }
+};
+
+//수정후 저장
+const saveUser = async () => {
+    if (!selectedUser.value) return;
+
+    const mNo = selectedUser.value.user_no;
+
+    try {
+        const payload = {
+            user_id: form.user_id,
+            name: form.name,
+            tel: form.tel,
+            email: form.email,
+            ins_no: form.ins_no
+        };
+
+        const resp = await fetch(`/api/managerUpdate/${mNo}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) throw new Error('저장 실패');
+
+        await resp.json();
+
+        alert('저장 완료');
+
+        await managerFetch(ins_no);
+
+        const updatedUser = managerList.value.find((u) => String(u.user_no) === String(mNo)); //담당자 리스트중 최근에 선택된 번호랑 같은 값 찾음
+
+        if (updatedUser) {
+            // 수정 끝난후 찾은 번호로 다시 조회
+            selectedUser.value = updatedUser;
+            loadForm(updatedUser);
+        }
+
+        isEditMode.value = false;
+    } catch (err) {
+        console.error('저장 에러:', err);
+        alert('저장 실패');
+    }
+};
+
+onBeforeMount(() => {
+    managerFetch(ins_no);
+    fetchInsList();
 });
 </script>
-
-<template>
-    <div class="p-6 rounded">
-        <div class="text-lg font-semibold mb-4 border-b pb-2">보호자 {{ uName }} 정보</div>
-        <div class="bg-surface-0 dark:bg-surface-900 border border-surface-200 dark:border-surface-700 rounded-xl p-4 lg:p-6">
-            <div v-if="myInfoList[0]" class="divide-y">
-                <!-- 아이디 -->
-                <div class="grid grid-cols-4 py-4">
-                    <div>아이디</div>
-                    <div class="col-span-3">{{ myInfoList[0].user_id }}</div>
-                </div>
-
-                <!-- 이름 -->
-                <div class="grid grid-cols-4 py-4">
-                    <div>이름</div>
-                    <div class="col-span-3">
-                        <input v-if="isEditMode" v-model="editForm.user_name" class="border px-2 py-1 rounded w-full" />
-                        <span v-else>{{ myInfoList[0].user_name }}</span>
-                    </div>
-                </div>
-
-                <!-- 전화번호 -->
-                <div class="grid grid-cols-4 py-4">
-                    <div>전화번호</div>
-                    <div class="col-span-3">
-                        <input v-if="isEditMode" v-model="editForm.tel" class="border px-2 py-1 rounded w-full" />
-                        <span v-else>{{ myInfoList[0].tel }}</span>
-                    </div>
-                </div>
-
-                <!-- 이메일 -->
-                <div class="grid grid-cols-4 py-4">
-                    <div>이메일</div>
-                    <div class="col-span-3">{{ myInfoList[0].email }}</div>
-                </div>
-
-                <!-- 주소 -->
-                <div class="grid grid-cols-4 py-4">
-                    <div>주소</div>
-                    <div class="col-span-3">
-                        <!-- 수정모드 -->
-                        <div v-if="isEditMode">
-                            <div class="flex gap-2 mb-2">
-                                <input v-model="form.zonecode" placeholder="우편번호" readonly class="border px-2 py-1 w-32" />
-                                <button @click="searchAddress" class="bg-gray-300 px-2 rounded">검색</button>
-                            </div>
-
-                            <input v-model="form.roadAddress" placeholder="기본주소" readonly class="border px-2 py-1 w-full mb-2" />
-                            <input id="detailAddress" v-model="form.detailAddress" placeholder="상세주소" class="border px-2 py-1 w-full" />
-                        </div>
-
-                        <!-- 일반모드 -->
-                        <span v-else>
-                            {{ myInfoList[0].address }}
-                        </span>
-                    </div>
-                </div>
-                <!-- 기관 -->
-                <div class="grid grid-cols-4 py-4">
-                    <div>기관</div>
-                    <div class="col-span-3">{{ myInfoList[0].ins }}</div>
-                </div>
-
-                <!-- 가입일 -->
-                <div class="grid grid-cols-4 py-4">
-                    <div>가입일</div>
-                    <div class="col-span-3">{{ myInfoList[0].created_at }}</div>
-                </div>
-            </div>
-        </div>
-        <!-- 버튼 -->
-        <div class="flex justify-end mt-6 gap-3">
-            <Button v-if="!isEditMode" @click="handleEdit" label="수정" class="w-24" />
-            <Button v-else @click="handleSave" label="저장" class="w-24" />
-
-            <!-- <button class="bg-gray-300 px-4 py-2 rounded">회원탈퇴</button>
-
-            <button v-if="!isEditMode" @click="handleEdit" class="bg-green-500 text-white px-4 py-2 rounded">수정</button>
-
-            <button v-else @click="handleSave" class="bg-blue-500 text-white px-4 py-2 rounded">저장</button> -->
-        </div>
-    </div>
-</template>
