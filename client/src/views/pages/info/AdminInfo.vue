@@ -3,16 +3,21 @@ import { ref, reactive, onBeforeMount } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
-const ins_no = userStore.institution;
 
 const managerList = ref([]);
 const selectedUser = ref(null);
 
 const isEditMode = ref(false);
 const isCreateMode = ref(false);
+const dropdownValue = ref(null);
+
+const insNo = ref(null);
 
 const insList = ref([]);
 
+const selectins = ref({
+    selectins_no: ''
+});
 // 입력폼
 const form = reactive({
     user_id: '',
@@ -24,9 +29,13 @@ const form = reactive({
 });
 
 // 담당자 리스트 조회
-const managerFetch = async (ins_no) => {
+const handleChange = async (e) => {
+    const selectedInsNo = e?.value?.ins_no ?? e;
+    insNo.value = selectedInsNo;
+
+    console.log(insNo.value);
     try {
-        const resp = await fetch(`/api/managerList/${ins_no}`);
+        const resp = await fetch(`/api/adminList/${insNo.value}`);
         const data = await resp.json();
         managerList.value = data;
 
@@ -35,7 +44,7 @@ const managerFetch = async (ins_no) => {
             loadForm(selectedUser.value);
         }
     } catch (err) {
-        console.error('담당자 조회 에러:', err);
+        console.error('관리자 조회 에러:', err);
     }
 };
 
@@ -97,32 +106,27 @@ const insertUser = async () => {
             name: form.name,
             tel: form.tel,
             email: form.email,
-            ins_no: ins_no
+            ins_no: form.ins_no
         };
 
-        const resp = await fetch('/api/managerInsert', {
+        const resp = await fetch('/api/adminInsert', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
-        if (!resp.ok) throw new Error('등록 실패');
-
         const newUser = await resp.json();
 
         alert('등록 완료');
 
-        await managerFetch(ins_no);
-
+        await handleChange(payload.ins_no);
         const latestUser = managerList.value[managerList.value.length - 1];
 
         selectedUser.value = latestUser;
         loadForm(latestUser);
-
         isCreateMode.value = false;
     } catch (err) {
-        console.error('등록 에러:', err);
-        alert('이미 사용중인 아이디');
+        alert('이미 사용중인 아이디입니다.');
     }
 };
 
@@ -141,7 +145,7 @@ const saveUser = async () => {
             ins_no: form.ins_no
         };
 
-        const resp = await fetch(`/api/managerUpdate/${mNo}`, {
+        const resp = await fetch(`/api/adminUpdate/${mNo}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -171,7 +175,6 @@ const saveUser = async () => {
 };
 
 onBeforeMount(() => {
-    managerFetch(ins_no);
     fetchInsList();
 });
 </script>
@@ -179,26 +182,30 @@ onBeforeMount(() => {
 <template>
     <div class="flex flex-col md:flex-row gap-8 h-full">
         <div class="md:w-2/8 h-full">
-            <div class="card h-full flex flex-col gap-4 min-h-0">
+            <div class="card h-full flex flex-col gap-4">
                 <div class="flex justify-between mb-4">
-                    <h3>담당자 목록</h3>
+                    <h3>관리자 목록</h3>
                     <span>{{ managerList.length }}명</span>
                 </div>
 
-                <div class="flex-1 overflow-y-auto">
+                <div>
+                    <Select v-model="dropdownValue" :options="insList" optionLabel="ins_name" placeholder="기관 선택하기" @change="handleChange" />
+                </div>
+                <div class="overflow-y-auto">
                     <div v-for="user in managerList" :key="user.user_id" class="p-3 border-b cursor-pointer hover:bg-gray-200" @click="selectUser(user)">
                         {{ user.name }}
                     </div>
                 </div>
 
-                <Button @click="createUser" class="w-full" label="기관담당자 등록" />
+                <!-- <button class="mt-4 w-full bg-green-400 text-white py-2 rounded" @click="createUser">기관담당자 등록</button> -->
+                <Button @click="createUser" class="w-full" label="기관관리자 등록" />
             </div>
         </div>
 
         <div class="md:w-6/8 h-full">
             <div class="card h-full flex flex-col gap-4">
                 <h2 class="mb-6 text-xl">
-                    {{ isCreateMode ? '담당자 등록' : isEditMode ? '담당자 정보 수정' : selectedUser?.name || '담당자 정보' }}
+                    {{ isCreateMode ? '관리자 등록' : isEditMode ? '관리자 정보 수정' : selectedUser?.name || '관리자 정보' }}
                 </h2>
 
                 <!-- 조회 -->
@@ -303,15 +310,15 @@ onBeforeMount(() => {
                                 <input v-model="form.email" class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300" />
                             </div>
 
-                            <!-- <div class="flex flex-col">
-                            <label class="text-gray-500 text-sm mb-1">기관</label>
-                            <select v-model="form.ins_no" class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                                <option disabled value="">기관 선택</option>
-                                <option v-for="ins in insList" :key="ins.ins_no" :value="String(ins.ins_no)">
-                                    {{ ins.ins_name }}
-                                </option>
-                            </select>
-                        </div> -->
+                            <div class="flex flex-col">
+                                <label class="text-gray-500 text-sm mb-1">기관</label>
+                                <select v-model="form.ins_no" class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                                    <option disabled value="">기관 선택</option>
+                                    <option v-for="ins in insList" :key="ins.ins_no" :value="String(ins.ins_no)">
+                                        {{ ins.ins_name }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </template>

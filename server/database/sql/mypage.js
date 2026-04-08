@@ -46,6 +46,15 @@ INSERT INTO beneficiaries (
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
 `;
 
+const updateMypage = `
+UPDATE user
+SET
+    user_name = ?,
+    tel = ?,
+    address = ?
+WHERE user_no = ?
+`;
+
 const mypageInfoSql = ` 
 SELECT u.user_id
       ,u.user_name
@@ -57,6 +66,16 @@ SELECT u.user_id
 FROM user u JOIN institution i ON u.institution_no = i.institution_no
 WHERE user_no = ?;
 `;
+
+const updateMypage = `
+UPDATE user
+SET
+    user_name = ?,
+    tel = ?,
+    address = ?
+WHERE user_no = ?
+`;
+
 // 보호자 기관번호 조회
 const selectGuardianInstitutionNo = `
 SELECT institution_no
@@ -69,4 +88,5 @@ module.exports = {
   insertTarget,
   mypageInfoSql,
   selectGuardianInstitutionNo,
+  updateMypage,
 };

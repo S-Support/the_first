@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
 const uNo = userStore.user_no;
-const uName = userStore.user_name;
+const uName = computed(() => userStore.user_name);
 
 import { myInfo } from '@/service/MyPageService';
 
@@ -53,6 +53,7 @@ async function loadInfo(uNo) {
 }
 
 // 수정 버튼 클릭
+// 수정 버튼 클릭
 function handleEdit() {
     isEditMode.value = true;
 
@@ -63,31 +64,41 @@ function handleEdit() {
 // 저장 버튼 클릭
 async function handleSave() {
     console.log('수정값 : ', editForm.value.user_name, editForm.value.tel, formdata.value);
-    // try {
-    //     await fetch('/api/myPageUserInfoUpdate', {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             user_no: uNo,
-    //             user_name: editForm.value.user_name,
-    //             tel: editForm.value.tel,
-    //             address: formdata.value
-    //         })
-    //     });
 
-    //     // 화면 반영
-    //     myInfoList.value[0].user_name = editForm.value.user_name;
-    //     myInfoList.value[0].tel = editForm.value.tel;
-    //     myInfoList.value[0].address = formdata.value;
+    try {
+        await fetch(`/api/myPageInfo`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_no: uNo,
+                user_name: editForm.value.user_name,
+                tel: editForm.value.tel,
+                address: formdata.value
+            })
+        });
 
-    //     isEditMode.value = false;
-    //     alert('수정 완료');
-    // } catch (err) {
-    //     console.error(err);
-    //     alert('수정 실패');
-    // }
+        // 화면 반영
+        myInfoList.value[0].user_name = editForm.value.user_name;
+        myInfoList.value[0].tel = editForm.value.tel;
+        myInfoList.value[0].address = formdata.value;
+
+        userStore.updateUser({
+            user_name: editForm.value.user_name,
+            role: userStore.role
+        });
+
+        const loginUser = JSON.parse(localStorage.getItem('user')) || {};
+        loginUser.user_name = editForm.value.user_name;
+        localStorage.setItem('user', JSON.stringify(loginUser));
+
+        isEditMode.value = false;
+        alert('수정 완료');
+    } catch (err) {
+        console.error(err);
+        alert('수정 실패');
+    }
 }
 
 onMounted(async () => {

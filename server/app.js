@@ -28,7 +28,7 @@ app.listen(port, () => {
 //   res.send("Welcome!!");
 // });
 
-app.post("/mail", async (req, res) => {
+app.post("/api/mail", async (req, res) => {
   const { email } = req.body;
   console.log(email);
 
@@ -101,6 +101,9 @@ app.use("/api/plan", planRouter);
 const resultRouter = require("./routers/result_router"); // 지원결과
 app.use("/api/result", resultRouter);
 
+const mypagRouter = require("./routers/mypage_router"); //마이페이지 일반사용자
+app.use("/api", mypagRouter);
+
 const surveyInputRouter = require("./routers/surveyInput_router");
 app.use("/api", surveyInputRouter);
 const fileRouter = require("./routers/file_router");
@@ -110,15 +113,13 @@ const priorityRouter = require("./routers/priority_router");
 app.use("/api", priorityRouter);
 app.use("/api/sysadmin/institutions", sysAdminInstitutionRouter); // 시스템관리자 기관관리
 
-
-const path = require('path');
-const publicPath = path.join(__dirname, 'public');
+const path = require("path");
+const publicPath = path.join(__dirname, "public");
 app.use(express.static(publicPath));
 
 app.get("/", function (req, res, next) {
   res.sendFile(path.join(__dirname, "./public", "index.html"));
 });
-
 
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "./public", "index.html"));
