@@ -59,7 +59,7 @@ app.post("/api/verify", (req, res) => {
     }
 
     if (data.code !== code) {
-      throw new Error("틀림");
+      throw new Error("인증번호가 일치하지 않습니다.");
     }
     res.json({ retCode: true });
 
