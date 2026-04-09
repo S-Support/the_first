@@ -22,7 +22,8 @@
 <img width="1148" height="600" alt="image" src="https://github.com/user-attachments/assets/faa1fa81-a9d9-481e-a914-fe68ede71e88" />
 
 ### ERD
-![ERD](./docs/erd.png)
+<img width="1063" height="584" alt="image" src="https://github.com/user-attachments/assets/69ed7149-b1ec-49c9-8339-7b038376835e" />
+
 
 ---
 
