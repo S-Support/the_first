@@ -26,18 +26,20 @@ const MENU = {
         e3: { label: '마이페이지', to: '/admin/institutioninfo', icon: 'pi pi pi-user' }
     },
 
-    // 관리자/공통 메뉴
-    MANAGER: { label: '담당자 조회', to: '/info/manager', icon: 'pi pi-id-card' },
-    APPROVAL: { label: '회원가입 승인요청', to: '/auth/approval', icon: 'pi pi-clock' },
+    // 공통 메뉴
     NOTICE: { label: '공지사항', to: '/notice', icon: 'pi pi-bell' },
 
     // 일반사용자 메뉴
     SURVEY_INPUT: { label: '지원신청서 등록', to: '/survey/input', icon: 'pi pi-file-edit' },
 
+    // 기관관리자 메뉴
+    APPROVAL: { label: '회원가입 승인요청', to: '/auth/approval', icon: 'pi pi-clock' },
+    MANAGER: { label: '담당자 조회', to: '/info/manager', icon: 'pi pi-id-card' },
+
     // 시스템관리자 메뉴
-    SURVEY: { label: '지원신청서 관리', to: '/survey', icon: 'pi pi-file-edit' },
     INSTITUTIONLIST: { label: '기관목록', to: '/sysadmin/institutions', icon: 'pi pi-home' },
     ADMINAPPROVAL: { label: '회원가입 승인요청', to: '/auth/admin-approval', icon: 'pi pi-clock' },
+    SURVEY: { label: '지원신청서 관리', to: '/survey', icon: 'pi pi-file-edit' },
     ADMIN: { label: '관리자 조회', to: '/info/admin', icon: 'pi pi-id-card' }
 };
 
