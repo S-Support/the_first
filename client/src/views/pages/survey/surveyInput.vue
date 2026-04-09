@@ -186,7 +186,7 @@ onBeforeMount(() => {
                         </div>
                     </div>
                     <div class="mt-auto flex justify-end gap-2">
-                        <Button type="button" label="저장후 미리보기" class="w-24" @click="addUSurveyInput" />
+                        <Button type="button" class="w-24" @click="addUSurveyInput" >저장 후<br>미리보기</Button>
                         <SurveyHistoryModal v-model:visible="historyDialog" :surveyNo="selectedSurveyNo" />
                     </div>
                 </div>
