@@ -47,11 +47,9 @@
 ### 메인 화면
 ![메인화면](./docs/main.png)
 
-### 시스템 구성도
-![시스템구성도](./docs/system_flow.png)
-
-### 자료 흐름도
-![자료흐름도](./docs/data_flow.png)
+### 프로그램 흐름도
+![시스템구성도]
+<img width="1148" height="600" alt="image" src="https://github.com/user-attachments/assets/faa1fa81-a9d9-481e-a914-fe68ede71e88" />
 
 ### ERD
 ![ERD](./docs/erd.png)
