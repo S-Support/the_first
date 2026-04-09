@@ -24,6 +24,7 @@ onBeforeMount(async () => {
 <template>
     <div class="card md:h-12/19 flex flex-col gap 4">
         <div class="overflow-y-auto">
+            <div class="font-bold text-lg mb-2 border-b pb-2">우선순위 조회</div>
             <div v-if="priority.length === 0" class="text-center text-gray-500 py-10">등록된 우선순위 요청이 없습니다.</div>
 
             <div v-for="data in priority" class="mb-6 border-b pb-4">
@@ -45,6 +46,7 @@ onBeforeMount(async () => {
                     <div v-if="data.approval === 'a2'" class="border-b py-2 mb-2">
                         <span>{{ data.reason_rejection }}</span>
                     </div>
+                  </div>
                 </div>
             </div>
         </div>
