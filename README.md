@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=BDBDC8&height=150&section=header" />
+![header](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&text=FIRST STEP : 함께하는 첫걸음&animation=twinkling&fontSize=35&fontAlignY=40&fontAlign=70&height=250)
 
 # FIRST STEP : 함께하는 첫걸음
 
