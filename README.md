@@ -68,7 +68,45 @@
 
 ---
 
+## 프로젝트 구조
 
+```bash
+the_first/
+├── client/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   ├── counsel/
+│   │   │   ├── plan/
+│   │   │   ├── priority/
+│   │   │   ├── result/
+│   │   │   └── survey/
+│   │   ├── layout/
+│   │   ├── router/
+│   │   ├── service/
+│   │   ├── stores/
+│   │   └── views/
+│   └── package.json
+│
+├── server/
+│   ├── database/
+│   │   ├── sql/
+│   │   ├── mappers/
+│   │   └── DAO.js
+│   ├── routers/
+│   ├── services/
+│   ├── uploads/
+│   ├── app.js
+│   └── package.json
+│
+├── docs/
+│   ├── main.png
+│   ├── system_flow.png
+│   ├── data_flow.png
+│   └── erd.png
+│
+└── README.md
 
 ---
 
