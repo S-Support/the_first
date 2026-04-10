@@ -13,18 +13,6 @@
 
 ---
 
-## 프로젝트 미리보기
-
-### 메인 화면
-![메인화면](./docs/main.png)
-
-<img width="1148" height="600" alt="image" src="https://github.com/user-attachments/assets/faa1fa81-a9d9-481e-a914-fe68ede71e88" />
-
-<img width="1063" height="584" alt="image" src="https://github.com/user-attachments/assets/69ed7149-b1ec-49c9-8339-7b038376835e" />
-
-
----
-
 ## 프로젝트 개요
 
 - **프로젝트명**: 장애인 지원관리 시스템
@@ -35,8 +23,128 @@
   - 지원계획 및 지원결과 승인 흐름 구현
   - 첨부파일 및 수정이력 관리 기능 제공
 
+
 ---
 
+## 팀 구성 및 역할
+
+<table align="center">
+  <tr> 
+    <td align="center"><a href=https://github.com/time1014><img src="https://avatars.githubusercontent.com/u/64236748?v=4" width="100px;" alt=""/><br /><sub><b>방진영</b></sub></a><br />
+    </td>
+    <td align="center"><a href=https://github.com/crescentia0011><img src="https://avatars.githubusercontent.com/u/254889839?v=4" width="100px;" alt=""/><br /><sub><b>김병완</b></sub></a><br />
+    </td>
+    <td align="center"><a href=https://github.com/kimeunji806><img src="https://avatars.githubusercontent.com/u/258710580?v=4" width="100px;" alt=""/><br /><sub><b>김은지</b></sub></a><br />
+    </td>
+   <td align="center"><a href=https://github.com/ryusongji><img src="https://avatars.githubusercontent.com/u/53076307?v=4" width="100px;" alt=""/><br /><sub><b>류송지</b></sub></a><br />
+    </td>
+  </tr>
+  <tr>
+    <th align="center">팀장</th>
+    <th align="center">부팀장</th>
+    <th align="center">팀원</th>
+    <th align="center">팀원</th>
+  </tr>
+ <tr>
+   <td align="center">배포</td>
+   <td align="center">GIT</td>
+   <td align="center">DB</td>
+  <td align="center">개발환경</td>
+ </tr>
+</table>
+
+---
+## 기술 스택 시각화
+
+| 구분 | 사용 기술 |
+|------|----------|
+| Frontend | ![Vue](https://img.shields.io/badge/Vue%203-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white) ![PrimeVue](https://img.shields.io/badge/PrimeVue-3B82F6?style=for-the-badge&logo=vue.js&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white) |
+| Backend | ![Node.js](https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white) |
+| Database | ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white) |
+| Dev Tools | ![MySQLWorkbench](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![VS Code Insiders](https://img.shields.io/badge/VS%20Code%20Insiders-35b393.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) |
+| Collaboration | ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)|
+| Deployment | ![Naver Cloud](https://img.shields.io/badge/NCP-03C75A?style=for-the-badge&logo=naver&logoColor=white) ![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white) ![PM2](https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white) |
+
+
+---
+
+## 프로젝트 구조
+
+```bash
+the_first/
+├── client/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   ├── counsel/
+│   │   │   ├── plan/
+│   │   │   ├── priority/
+│   │   │   ├── result/
+│   │   │   └── survey/
+│   │   ├── layout/
+│   │   ├── router/
+│   │   ├── service/
+│   │   ├── stores/
+│   │   └── views/
+│   └── package.json
+│
+├── server/
+│   ├── database/
+│   │   ├── sql/
+│   │   ├── mappers/
+│   │   └── DAO.js
+│   ├── routers/
+│   ├── services/
+│   ├── uploads/
+│   ├── app.js
+│   └── package.json
+│
+├── docs/
+│   ├── main.png
+│   ├── system_flow.png
+│   ├── data_flow.png
+│   └── erd.png
+│
+└── README.md
+
+---
+
+## 시스템설계
+
+<img width="1148" height="600" alt="image" src="https://github.com/user-attachments/assets/faa1fa81-a9d9-481e-a914-fe68ede71e88" />
+
+<img width="1063" height="584" alt="image" src="https://github.com/user-attachments/assets/69ed7149-b1ec-49c9-8339-7b038376835e" />
+
+
+---
+
+### 메인 화면
+- 지원신청내역
+<img width="1919" height="668" alt="image" src="https://github.com/user-attachments/assets/b0c0c6d4-693c-44e8-85ea-9670c54ebbe6" />
+
+- 지원신청서
+<img width="1919" height="901" alt="지원신청서_지원신청하기클릭시" src="https://github.com/user-attachments/assets/062fa163-7836-4c9e-a491-df28a2d462f9" />
+
+- 담당자 배정
+<img width="1534" height="830" alt="image" src="https://github.com/user-attachments/assets/6c6b83b9-687f-42b4-b546-9593d081cb0d" />
+
+- 상담내역
+<img width="1919" height="946" alt="image" src="https://github.com/user-attachments/assets/f5681797-9e54-4888-ab3e-7b3685c2a8e4" />
+
+- 우선순위
+<img width="1919" height="925" alt="우선순위반려사유적을시" src="https://github.com/user-attachments/assets/a3c6f79d-ac08-4cdd-a3f2-2ea9fc2a7c21" />
+
+- 지원계획
+<img width="1527" height="847" alt="image" src="https://github.com/user-attachments/assets/6981b44e-2985-48ca-9a64-81bd16316e45" />
+
+- 지원결과
+<img width="1516" height="860" alt="image" src="https://github.com/user-attachments/assets/f64bc2d6-1210-403b-bf5a-c5e0d52bc795" />
+
+- 공지사항
+<img width="1920" height="945" alt="image" src="https://github.com/user-attachments/assets/b659a945-cec3-4b6e-b523-78c5a0094882" />
+
+---
 
 
 ## 주요 기능
@@ -87,88 +195,3 @@
 
 ---
 
-## 기술 스택 시각화
-
-| 구분 | 사용 기술 |
-|------|----------|
-| Frontend | ![Vue](https://img.shields.io/badge/Vue%203-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white) ![PrimeVue](https://img.shields.io/badge/PrimeVue-3B82F6?style=for-the-badge&logo=vue.js&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white) |
-| Backend | ![Node.js](https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white) |
-| Database | ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white) |
-| Dev Tools | ![MySQLWorkbench](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![VS Code Insiders](https://img.shields.io/badge/VS%20Code%20Insiders-35b393.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) |
-| Collaboration | ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)|
-| Deployment | ![Naver Cloud](https://img.shields.io/badge/NCP-03C75A?style=for-the-badge&logo=naver&logoColor=white) ![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white) ![PM2](https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white) |
-
-
-
-
----
-
-## 팀 구성 및 역할
-
-<table align="center">
-  <tr> 
-    <td align="center"><a href=https://github.com/time1014><img src="https://avatars.githubusercontent.com/u/64236748?v=4" width="100px;" alt=""/><br /><sub><b>방진영</b></sub></a><br />
-    </td>
-    <td align="center"><a href=https://github.com/crescentia0011><img src="https://avatars.githubusercontent.com/u/254889839?v=4" width="100px;" alt=""/><br /><sub><b>김병완</b></sub></a><br />
-    </td>
-    <td align="center"><a href=https://github.com/kimeunji806><img src="https://avatars.githubusercontent.com/u/258710580?v=4" width="100px;" alt=""/><br /><sub><b>김은지</b></sub></a><br />
-    </td>
-   <td align="center"><a href=https://github.com/ryusongji><img src="https://avatars.githubusercontent.com/u/53076307?v=4" width="100px;" alt=""/><br /><sub><b>류송지</b></sub></a><br />
-    </td>
-  </tr>
-  <tr>
-    <th align="center">팀장</th>
-    <th align="center">부팀장</th>
-    <th align="center">팀원</th>
-    <th align="center">팀원</th>
-  </tr>
- <tr>
-   <td align="center">배포</td>
-   <td align="center">GIT</td>
-   <td align="center">DB</td>
-  <td align="center">개발환경</td>
- </tr>
-</table>
-
-
----
-
-## 프로젝트 구조
-
-```bash
-the_first/
-├── client/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   │   ├── common/
-│   │   │   ├── counsel/
-│   │   │   ├── plan/
-│   │   │   ├── priority/
-│   │   │   ├── result/
-│   │   │   └── survey/
-│   │   ├── layout/
-│   │   ├── router/
-│   │   ├── service/
-│   │   ├── stores/
-│   │   └── views/
-│   └── package.json
-│
-├── server/
-│   ├── database/
-│   │   ├── sql/
-│   │   ├── mappers/
-│   │   └── DAO.js
-│   ├── routers/
-│   ├── services/
-│   ├── uploads/
-│   ├── app.js
-│   └── package.json
-│
-├── docs/
-│   ├── main.png
-│   ├── system_flow.png
-│   ├── data_flow.png
-│   └── erd.png
-│
-└── README.md
