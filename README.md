@@ -81,29 +81,29 @@
 
 ---
 
-### 메인 화면
-- 지원신청내역
+## 메인 화면
+### 지원신청내역
 <img width="1919" height="668" alt="image" src="https://github.com/user-attachments/assets/b0c0c6d4-693c-44e8-85ea-9670c54ebbe6" />
 
-- 지원신청서
+### 지원신청서
 <img width="1919" height="901" alt="지원신청서_지원신청하기클릭시" src="https://github.com/user-attachments/assets/062fa163-7836-4c9e-a491-df28a2d462f9" />
 
-- 담당자 배정
+### 담당자 배정
 <img width="1534" height="830" alt="image" src="https://github.com/user-attachments/assets/6c6b83b9-687f-42b4-b546-9593d081cb0d" />
 
-- 상담내역
+### 상담내역
 <img width="1919" height="946" alt="image" src="https://github.com/user-attachments/assets/f5681797-9e54-4888-ab3e-7b3685c2a8e4" />
 
-- 우선순위
+### 우선순위
 <img width="1919" height="925" alt="우선순위반려사유적을시" src="https://github.com/user-attachments/assets/a3c6f79d-ac08-4cdd-a3f2-2ea9fc2a7c21" />
 
-- 지원계획
+### 지원계획
 <img width="1527" height="847" alt="image" src="https://github.com/user-attachments/assets/6981b44e-2985-48ca-9a64-81bd16316e45" />
 
-- 지원결과
+### 지원결과
 <img width="1516" height="860" alt="image" src="https://github.com/user-attachments/assets/f64bc2d6-1210-403b-bf5a-c5e0d52bc795" />
 
-- 공지사항
+### 공지사항
 <img width="1920" height="945" alt="image" src="https://github.com/user-attachments/assets/b659a945-cec3-4b6e-b523-78c5a0094882" />
 
 ---
