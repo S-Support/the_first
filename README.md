@@ -1,3 +1,5 @@
+<img src="https://capsule-render.vercel.app/api?type=waving&color=BDBDC8&height=150&section=header" />
+
 # FIRST STEP : 함께하는 첫걸음
 
 ---
@@ -194,5 +196,4 @@ the_first/
 8. 기관관리자가 지원결과를 승인 또는 반려합니다.
 9. 각 단계에서 첨부파일 및 수정이력이 함께 관리됩니다.
 
-
-
+<img src="https://capsule-render.vercel.app/api?type=waving&color=BDBDC8&height=150&section=footer" />
